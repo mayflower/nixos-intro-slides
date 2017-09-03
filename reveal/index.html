@@ -7,7 +7,7 @@
     <title>Introduction to NixOS</title>
 
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/theme/white.css">
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -15,6 +15,15 @@
     <style>
       .reveal h1, .reveal h2, .reveal h3 {
         text-transform: none;
+      }
+      .reveal section img {
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+      .reveal {
+        background-image: radial-gradient(center, circle cover, #fff 0%, #ddd 100%);
+        background-image: -webkit-radial-gradient(center, circle cover, #fff 0%, #aaa 100%);
       }
     </style>
 
@@ -33,15 +42,19 @@
         <section>
           <h1>
             <span style="vertical-align: middle;">NixOS</span>
-            <img style="vertical-align: middle; width: 200px; height: 175px; border: none; background: none; margin-left: 40px"
+            <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 40px"
               data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
           </h1>
-          <h3>Declarative Linux Distribution &amp; Purely Functional Package Management</h3>
-          <p>
-            Franz Pletz (<a href="https://github.com/fpletz" target="_blank">fpletz</a>) &amp;
-            Robin Gloster (<a href="https://github.com/globin" target="_blank">globin</a>)
-          </p>
-          <p>Mayflower GmbH</p>
+          <h3>Declarative Linux Distribution &amp;<br />Purely Functional Package Management</h3>
+          <small>
+            <p>
+              Franz Pletz (<a href="https://github.com/fpletz" target="_blank">fpletz</a>) &amp;
+              Robin Gloster (<a href="https://github.com/globin" target="_blank">globin</a>)
+            </p>
+            <p>
+              Mayflower GmbH
+            </p>
+          </small>
         </section><section>
           <h2>About the speaker</h2>
 
@@ -81,15 +94,12 @@
               <li class="fragment">User modified a file of installed package, gets overwritten by package upgrade</li>
             </ul>
           </section><section>
+            <h2>Purely? Functional?</h2>
             <ol>
               <li><span>Functions always evaluate the same result value given the same argument value</span></li>
               <li class="fragment">
                 <span>Evaluation of the result does not cause any semantically observable </span>side effect</li>
             </ol>
-
-
-            <h2>Purely? Functional?</h2>
-
           </section><section>
             <h2>Functional Approach</h2>
 
