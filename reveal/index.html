@@ -23,10 +23,1035 @@
 	</head>
 	<body>
 		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+<div class="slides">
+<section data-id="b6c9b0c8bf961d10e37a14ec7b4037d8"><div class="sl-block" data-block-type="text" style="width: 640px; left: 160px; top: 101px; height: auto;" data-block-id="393c3c15a185f7a10a10d3a86f918db1"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11; font-size: 150%;">
+<h1 style="text-align: left;">NixOS</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 314px; height: auto;" data-block-id="e34cb7c30d5c2a8c186c8b30207326b3"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Subtitle" style="z-index: 12; font-size: 72%;">
+<h2>Declarative Linux Distribution &amp; Purely Functional Package Management </h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="2d922dcdafe22c29c7dafefd2ef74812" style="min-width: 30px; min-height: 30px; width: 240px; height: 207.692px; left: 560px; top: 70px;"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="1040" data-natural-height="900" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png"></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="0a0e84d2903de08691b4dd1e342b9e50" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 474px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14; text-align: center;">
+<p>Franz Pletz / <a href="https://twitter.com/fpletz" target="_blank">@fpletz</a></p>
+
+<p>Mayflower GmbH</p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="04b7b766245ea9f789f19652fe007874" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 591px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
+<p>FrOSCon 2016</p>
+</div></div></section><section data-id="014774ec68cc4eec214386a95523a2af"><div class="sl-block" data-block-type="text" style="width: 516px; left: 222px; top: 33px; height: auto;" data-block-id="876ebf8f84e60ebc26bc8b3ac831f660"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left;">
+<h2>About the speaker</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 884.383px; height: 543px; left: 38px; top: 127px;" data-block-id="a27294e005552204b3e1f368a419a900"><div class="sl-block-content"><img style="" data-natural-width="1101" data-natural-height="676" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926317/fpletz_github.png"></div></div></section><section class="stack" data-id="fa233ab54a194c413581f53531931b05"><section data-id="f7e41097cca288d2471173b86662b736"><div class="sl-block" data-block-type="text" style="width: 900px; left: 30px; top: 350px; height: auto;" data-block-id="eb2435e04e8d13d1efd333308ddb37a5"><div class="sl-block-content" data-placeholder-tag="h1" style="font-size: 175%; text-align: left; z-index: 11;" data-placeholder-text="Text">
+<h1>Package Management </h1>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="6c9c9474d141602bc88d87d280f994da" style="min-width: 30px; min-height: 30px; width: 333.807px; height: 235px; left: 596px; top: 23px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="250" data-natural-height="176" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926158/binary_package.png"></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="a741fd9841adf03c137d80fadacab3e2" style="height: auto; min-width: 30px; min-height: 30px; width: 517px; left: 62px; top: 243px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<h2>Let's talk about…</h2>
+</div></div></section><section data-id="e53c44dc384e3293055c1fd60ca79ebe"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 90px; height: auto;" data-block-id="8528baa89186ea8ab49a4960a3dce2df"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Features of a Typical  Package Manager</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 316px; height: auto;" data-block-id="8004326b3f05a3dae9c8686c331fa247"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="font-size: 115%;">
+<ul>
+<li>codifies software build process</li>
+<li class="fragment" data-fragment-index="0">creates a distributable package</li>
+<li class="fragment" data-fragment-index="1">manages package lifecycle</li>
+<li class="fragment" data-fragment-index="2">maintains a package database or repo </li>
+<li class="fragment" data-fragment-index="3">ensures package integrity &amp; authenticity</li>
+<li class="fragment" data-fragment-index="4"><span style="color:rgb(17, 17, 17); text-align:left">version &amp; dependency management</span></li>
+</ul>
+</div></div></section><section data-id="f2329c663c5c4f89446b3a886c46fd6b"><div class="sl-block" data-block-type="image" style="width: 892px; height: 453.713px; left: 34px; top: 140px;" data-block-id="5b7ab0f25e54ddc138a1549e2a5de8d4"><div class="sl-block-content" style="z-index: 11;"><img style="" data-natural-width="983" data-natural-height="500" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926280/packaging_stateful.png"></div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 79px; top: 50px; height: auto;" data-block-id="f7ec3ce80af01990ebb171bdfa15b6f7"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 12;">
+<h2>Procedural Approach</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="30a624ae1c95a374d8fb531b46ecd9b7" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 596px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<p>Build results <strong>depend on inherited state</strong></p>
+
+<p>Package installs <strong>modify state</strong></p>
+</div></div></section><section data-id="6a29d2c449a25f4325a72bcbceeae102"><div class="sl-block" data-block-type="text" style="width: 800px; left: 79px; top: 50px; height: auto;" data-block-id="98d6cfc4a0ae578c0eef3aab498e3af0"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Procedural Approach</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 142px;" data-block-id="0a185018ae18a21b087720cafca097a7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+<p>Typical WTF Moments</p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="e2353407f1bb47a9224581752e79b16d" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 79px; top: 280px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; font-size: 115%;">
+<ul>
+<li>Package compiles/runs on machine A but fails on machine B</li>
+<li class="fragment" data-fragment-index="0">Installing packages fails, system ends up in a broken or unknown state</li>
+<li class="fragment" data-fragment-index="1">New version of a library changes ABI, all dependent packages are broken</li>
+<li class="fragment" data-fragment-index="2">User modified a file of installed package, gets overwritten by package upgrade</li>
+</ul>
+</div></div></section><section data-id="7624bcb566c356671317b7554a38431b"><div class="sl-block" data-block-type="text" style="width: 639px; left: 160px; top: 334px; height: auto;" data-block-id="a492cda9646786f53644e9054a7f9c19"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;" dir="ui">
+<ol>
+<li><span style="color:rgb(37, 37, 37); text-align:left">Functions always evaluate the same result value given the same argument value</span></li>
+<li class="fragment" data-fragment-index="0">
+<span style="color:rgb(37, 37, 37); text-align:left">Evaluation of the result does not cause any semantically observable </span>side effect</li>
+</ol>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="a73b0cd7f2f1d89afc857da4183c705f"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 12;">
+<h2>Purely? Functional?</h2>
+</div></div>
+</section><section data-id="2a50b459a0a1ceaf3a3108be25ca1936"><div class="sl-block" data-block-type="text" style="width: 800px; left: 79px; top: 50px; height: auto;" data-block-id="a7a9d5ce4dfa4bc0da49e40f9a51b589"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 12;">
+<h2>Functional Approach</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 922px; height: 276.284px; left: 19px; top: 124px;" data-block-id="f3b315d28708ce5a013a505766d101df"><div class="sl-block-content" style="z-index: 10;"><img style="" data-natural-width="1168" data-natural-height="350" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926299/packaging_stateless.png"></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="b6f7271b539f791a68e0a0052c528b49" style="height: auto; min-width: 30px; min-height: 30px; width: 320px; left: 159px; top: 447px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<p> Useful properties:</p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="85d2c625d3e877ab5c388953b11e1cb7" style="height: auto; min-width: 30px; min-height: 30px; width: 320px; left: 479px; top: 447px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14; text-align: left;" data-fragment-index="0">
+<ul>
+<li>Reproducible</li>
+<li>Atomic</li>
+<li>Conflict-free</li>
+<li>Immutable</li>
+</ul>
+</div></div></section></section><section class="stack" data-id="cb62024294bf82c9204062734e0c2639"><section data-id="f40df69e80dfc4fea77e179e449bd918"><div class="sl-block" data-block-type="text" style="width: 640px; left: 160px; top: 148px; height: auto;" data-block-id="a2c78522cfe5871ee48f46bed905c1aa"><div class="sl-block-content" data-placeholder-tag="h1" style="font-size: 200%; text-align: left; z-index: 11;" data-placeholder-text="Text">
+<h1>Nix</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="393d67fbbb99971a1de88e7177dfa726" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 420px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 200%;">
+<p>The purely functional package manager</p>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="7e1eb2aa542a702ccf1901259392de1f" style="min-width: 30px; min-height: 30px; width: 242.667px; height: 210px; left: 557px; top: 140px;"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="1040" data-natural-height="900" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png"></div></div></section><section data-id="7b602eb7b6cf612b4f5a52041c1203a1"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="aa52faa759f26b46ba98d4d123e98110"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>What is Nix?</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 233px; height: auto;" data-block-id="1abeb253bd85da8d3d2086d4e7b9526e"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" dir="ui" data-has-custom-html="">
+<ul>
+<li class="">PhD thesis of Eelco Dolstra (2006)<br>
+"The Purely Functional Deployment Model"</li>
+<li class="fragment" data-fragment-index="0">build results only depend on declard inputs</li>
+<li class="fragment" data-fragment-index="1">implemented in C++</li>
+<li class="fragment" data-fragment-index="2">uses minimal purely functional language
+<ul>
+<li>describes package builds</li>
+<li>defines dependencies</li>
+<li>lazily evaluated, dynamically typed</li>
+</ul>
+</li>
+</ul>
+</div></div></section><section data-id="2bd2befb754229389d4ce85008bded6a"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="9ae09373c1b86c5fdb33c8b35b7b2f68"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Key Features of Nix</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 242px; height: auto;" data-block-id="a74124f0e619b9a0835c5991832dce72"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" dir="ui">
+<ul>
+<li>immutable package store</li>
+<li class="fragment" data-fragment-index="0">atomic upgrades &amp; rollbacks</li>
+<li class="fragment" data-fragment-index="1">isolated build environment</li>
+<li class="fragment" data-fragment-index="2">shell environments</li>
+<li class="fragment" data-fragment-index="3">runs on POSIX (Linux, *BSD, OS X)</li>
+<li class="fragment" data-fragment-index="4">multi-version support</li>
+<li class="fragment" data-fragment-index="5">multi-user support</li>
+<li class="fragment" data-fragment-index="6">source/binary model</li>
+</ul>
+</div></div></section><section data-id="e8c9203577b64ca5f620442a9263e077"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="ac2141df8325dc9642a4ad2a0b417bf1"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Standard Package Set</h2>
+
+<h3>nixpkgs</h3>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 669px; left: 146px; top: 249px; height: auto;" data-block-id="1aace1d92d4c73a9ff44329cb5adacbc"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text">
+<ul>
+<li>Github Repository
+<ul>
+<li><a href="https://github.com/NixOS/nixpkgs" target="_blank">https://github.com/NixOS/nixpkgs</a></li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="0">Lots of abstractions
+<ul>
+<li>fetch sources from git, mercurial, …</li>
+<li>a standard build environment</li>
+<li>wrappers for lots of build systems</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="1">&gt; 10.000 packages available</li>
+<li class="fragment" data-fragment-index="2">can be used on other Unix systems &amp; Darwin</li>
+</ul>
+</div></div></section><section data-id="cc00acfc66abd1996e5b67fd4788de65"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="563e623a33e44ca3a4e06d8b04abf06e"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Purity in Nix</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 350px; height: auto;" data-block-id="cfcebf1dc7318536d6c855c95a6b4f25"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+<li class="fragment" data-fragment-index="1">functional language</li>
+<li class="fragment" data-fragment-index="2">chroot</li>
+<li class="fragment" data-fragment-index="3">no networking</li>
+<li class="fragment" data-fragment-index="4">patched shebangs</li>
+<li class="fragment" data-fragment-index="5">/nix/store mounted read-only</li>
+<li class="fragment" data-fragment-index="6">patches to tooling</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="f9ee84b7071252d1782646b7b650f535" style="height: auto; min-width: 30px; min-height: 30px; width: 794px; left: 83px; top: 180px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; font-size: 76%;">
+<pre>/nix/store/<span style="color:#FF0000">s3fikpaws0z0wdkgs53nym05wj4wjy5w</span>-openssh-7.3p1</pre>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="5b83281087a6fc9e8570a29e9d12f293" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 241px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="0">
+<p><em><span style="text-align:left">A package is an output of a pure function.</span></em> <em><span style="text-align:left">It depends only on the function inputs, without any side effects.</span></em></p>
+</div></div></section><section data-id="ae341f719b367f12ee77a888e76755c6"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="5ab000319b8b80915b3e573705c6a2cc"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Purity in Nix</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="415923ab05b2b8b48fc489469a06a0d9" style="min-width: 30px; min-height: 30px; width: 704px; height: 100px; left: 128px; top: 230px;"><div class="sl-block-content" style="z-index: 12; border-style: solid; border-width: 1px;" data-highlight-theme="github-gist"><pre class="nginx"><code>src = fetchurl {
+  url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+  sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+};</code></pre></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="90103276e8e6de52912c4cd10b36fc7c" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 160px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<h3>Fixed Output Derivations</h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="a3ccb7654ba7a5d9aaa68cbcdbafb67b" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 490px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="1">
+<p>For impure derivations where the output is known before the build.</p>
+
+<p>Guarded by cryptographic hash of output.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="da49895ad90402e2b4fa1ca960fcf6b1" style="min-width: 30px; min-height: 30px; width: 704px; height: 130px; left: 128px; top: 350px;"><div class="sl-block-content fragment" style="z-index: 15; border-style: solid; border-width: 1px;" data-highlight-theme="github-gist" data-fragment-index="0"><pre class="nginx"><code>src = fetchFromGitHub {
+  owner = "ponylang";
+  repo = "ponyc";
+  rev = "4eec8a9b0d9936b2a0249bd17fd7a2caac6aaa9c";
+  sha256 = "184x2jivp7826i60rf0dpx0a9dg5rsj56dv0cll28as4nyqfmna2";
+};</code></pre></div></div></section><section data-id="a8e8f8c856288877663f6bf34c8d09f8"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="e92c06525d666255d01a166d25eadcd9"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Dependencies of openssh</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="min-width: 30px; min-height: 30px; width: 880px; height: 461.45px; left: 40px; top: 169px;" data-block-id="b703d9b115c1d876957c2d1701088647"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="1600" data-natural-height="839" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926485/openssh-deps.png"></div></div></section><section data-id="b4461b17166f1e4e209574d098379f92"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="b55b8adc82508cc03a6cb7f36e3b6a2d"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>openssh Closure</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 294px;" data-block-id="bc73fa371229d1a753f5e3b6f75bb189"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 60%;" data-has-custom-html=""></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="cfcc91ed32a6b9d5123269e3eff60616" style="min-width: 30px; min-height: 30px; width: 812px; height: 281px; left: 74px; top: 279px;"><div class="sl-block-content" style="z-index: 13; font-size: 110%;" data-highlight-theme="monokai"><pre class="1c"><code>$ du -sh $(nix-store -qR `nix-build -A openssh`)
+19M     /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23
+562K/nix/store/1zcm7nlw89y9hqq5ihhbkkmncw6s0vm8-bash-4.3-p42
+8.4M/nix/store/6bscdl1q74d16d1c7hp84j77mpy9q5jg-ncurses-6.0
+126K/nix/store/lx142x7lrirv833ckk74niiy3fp5p2wa-ncurses-6.0-man
+534K/nix/store/02fpx56jrmbs8pgkdv0ihql2sdzbaxdq-ncurses-6.0-dev
+1.8M/nix/store/381mr3hs51sbw4r53hc7adixlmard2cv-libressl-2.4.2
+66K/nix/store/lcazrvc9390cm4bi95n458jabrs6y8z4-zlib-1.2.8
+815K/nix/store/67ggrjiphzll3sy60zcv642r7jiv94nj-cracklib-2.9.6
+1.8M/nix/store/g2q9kgmjsr6sbpnjmkbnvq298p89ps3f-linux-pam-1.2.1
+209K/nix/store/zbc4iykrf79hj0gr7s77l56743yf5wml-libedit-20150325-3.1
+3.1M/nix/store/s3fikpaws0z0wdkgs53nym05wj4wjy5w-openssh-7.3p1</code></pre></div></div></section><section data-id="647c7efc1b4342e886d96e80984d01a6"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 33px; height: auto;" data-block-id="47e9491a4eb876705fc63157ccaed8fe"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>openssh Store Path</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 160px; top: 140px;" data-block-id="15d62c195e176a535b3ca2e5ae65772a"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 60%;" data-has-custom-html=""></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="0a968761985803114f0ac8b3fd5d85c5" style="min-width: 30px; min-height: 30px; width: 761px; height: 535px; left: 100px; top: 140px;"><div class="sl-block-content" style="z-index: 13; font-size: 115%;" data-highlight-theme="monokai"><pre class="1c"><code>$ tree `nix-build -A openssh`
+/nix/store/s3fikpaws0z0wdkgs53nym05wj4wjy5w-openssh-7.3p1
+├── bin
+│   ├── scp
+│   ├── sftp
+│   ├── ssh
+│   ├── ssh-add
+│   ├── ssh-agent
+│   ├── ssh-copy-id
+│   ├── sshd
+│   ├── ssh-keygen
+│   └── ssh-keyscan
+├── etc
+│   └── ssh
+│       ├── moduli
+│       ├── ssh_config
+│       └── sshd_config
+├── libexec
+│   ├── sftp-server
+│   ├── ssh-keysign
+│   └── ssh-pkcs11-helper
+└── share
+    └── man
+        ├── man1
+        │   ├── scp.1.gz
+        │   ├── sftp.1.gz
+        │   ├── ssh.1.gz
+        │   ├── ssh-add.1.gz
+        │   ├── ssh-agent.1.gz
+        │   ├── ssh-copy-id.1.gz
+        │   ├── ssh-keygen.1.gz
+        │   └── ssh-keyscan.1.gz
+        ├── man5
+        │   ├── moduli.5.gz
+        │   ├── ssh_config.5.gz
+        │   └── sshd_config.5.gz
+        └── man8
+            ├── sftp-server.8.gz
+            ├── sshd.8.gz
+            ├── ssh-keysign.8.gz
+            └── ssh-pkcs11-helper.8.gz
+
+9 directories, 30 files</code></pre></div></div></section><section data-id="24fee1320e3cbb8e8fac50e5481d3d7e"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 33px; height: auto;" data-block-id="6d3abacfc4f08fd8297e309019ead930"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Dependencies are hardcoded</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="53fe670736e58de1a6e29f708a6144a6" style="min-width: 30px; min-height: 30px; width: 918px; height: 217px; left: 21px; top: 174px;"><div class="sl-block-content" style="z-index: 12;" data-highlight-theme="monokai"><pre class="1c"><code>$ ldd `which ssh`
+linux-vdso.so.1 (0x00007ffccb981000)
+libcrypto.so.38 =&gt; /nix/store/381mr3hs51sbw4r53hc7adixlmard2cv-libressl-2.4.2/lib/libcrypto.so.38
+libdl.so.2 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libdl.so.2
+libutil.so.1 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libutil.so.1
+libz.so.1 =&gt; /nix/store/lcazrvc9390cm4bi95n458jabrs6y8z4-zlib-1.2.8/lib/libz.so.1
+libcrypt.so.1 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libcrypt.so.1
+libc.so.6 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libc.so.6
+libresolv.so.2 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libresolv.so.2
+/nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/ld-linux-x86-64.so.2</code></pre></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="ecd1792673f1d0f7a45993d2a1a76a92" style="min-width: 30px; min-height: 30px; width: 918px; height: 189px; left: 21px; top: 441px;"><div class="sl-block-content" style="z-index: 13;" data-highlight-theme="monokai"><pre class="bash"><code>$ cat `which iotop`
+#! /nix/store/1zcm7nlw89y9hqq5ihhbkkmncw6s0vm8-bash-4.3-p42/bin/bash -e
+
+export PYTHONPATH=/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/lib/python2.7/site-packages:/nix/store/pfv9m665mg2368hdkldwscxy927851n8-python-2.7.12/lib/python2.7/site-packages:/nix/store/wkhan6yfzljykzlwyd3wli4y990lf2gr-python2.7-setuptools-19.4/lib/python2.7/site-packages:/nix/store/c291g9drj1a6nvs0ils0jfx6rqppc8x9-python-curses-2.7.12/lib/python2.7/site-packages${PYTHONPATH:+:}$PYTHONPATH
+
+export PATH=/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin:/nix/store/pfv9m665mg2368hdkldwscxy927851n8-python-2.7.12/bin:/nix/store/ya9d15pgg63bx6m7m72czvh9fcj5vfr7-less-483/bin:/nix/store/wkhan6yfzljykzlwyd3wli4y990lf2gr-python2.7-setuptools-19.4/bin:/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin${PATH:+:}$PATH
+
+exec -a "$0" /nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin/.iotop-wrapped "${extraFlagsArray[@]}" "$@"</code></pre></div></div></section><section data-id="00fcb4939b5572d5c99474b14cfcbd54"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 190px; height: auto;" data-block-id="01dace9edbd38e21f97fce89185f1a5c"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text">
+<h1>Real World Example</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 287px; height: auto;" data-block-id="4ddcb9735b54f7034d0ac8189f5d3fc7"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Subtitle">
+<h2>openssh</h2>
+</div></div></section><section data-id="26754f1600e19c813e0109bdcc83370c">
+<div class="sl-block" data-block-type="code" data-block-id="8a6094969a5d85fcbab8219e96439d7b" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;"><div class="sl-block-content" style="z-index: 10; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="0a4ce3202a9a244e06c9242fcf3adc41">
+<div class="sl-block" data-block-type="shape" style="min-width: 4px; min-height: 4px; width: 807px; height: 43px; left: 59px; top: 8px;" data-block-id="59726bc5c9c2cee73eb05dc1a8dfbbb1"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 807 43"><defs><clippath id="shape-mask-1-1471690198377"><rect width="807" height="43"></rect></clippath></defs><rect width="807" height="43" clip-path="url(#shape-mask-1-1471690198377)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="69ce6b651ed978c79cd126c38e71a692" style="height: auto; min-width: 30px; min-height: 30px; width: 561px; left: 200px; top: 218px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>Dependencies of this "derivation"</p>
+
+<p>Parameters of a new function</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" data-block-id="43902ffb8fb42eaad2a5c109612602b5" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 480px; top: 51px;"><div class="sl-block-content" data-line-x1="100" data-line-y1="-32" data-line-x2="100.5" data-line-y2="-199" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="1" height="167" viewbox="100 -199 1 167"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="100.5" y1="-31.5" x2="100.5" y2="-191.5"></line><line stroke="#ff0000" stroke-width="5" x1="100.5" y1="-31.5" x2="100.5" y2="-191.5"></line><polygon fill="#ff0000" transform="translate(100,-192) rotate(0.172)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="f548ed119c3dddf53f73c7ef04403ae5"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="363d61d3c63f064ff332dfcdec052f8f">
+<div class="sl-block" data-block-type="shape" style="width: 220px; height: 35px; left: 59px; top: 55px;" data-block-id="45a654613e49fcf07348c9b16d21a3ef"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 220 35"><defs><clippath id="shape-mask-2-1471690198966"><rect width="220" height="35"></rect></clippath></defs><rect width="220" height="35" clip-path="url(#shape-mask-2-1471690198966)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 180px; top: 238px;" data-block-id="1efb643babc2c50f51e32d898f93758a"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>Create a derivation using a wrapper</p>
+
+<p>from the "standard environment"</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 184px; top: 90px;" data-block-id="f4d860dcf49148fcfe7ebdedaa11d38d"><div class="sl-block-content" data-line-x1="105" data-line-y1="-123" data-line-x2="19" data-line-y2="-271" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="86" height="148" viewbox="19 -271 86 148"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="105.5" y1="-122.5" x2="23.5" y2="-264.5"></line><line stroke="#ff0000" stroke-width="5" x1="105.5" y1="-122.5" x2="23.5" y2="-264.5"></line><polygon fill="#ff0000" transform="translate(23,-265) rotate(-30.16)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="e3eb833cda308901f88a1a446878decc"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="eecb7c1485bba6cb503643efe47c4d5d">
+<div class="sl-block" data-block-type="shape" style="width: 320px; height: 57px; left: 80px; top: 76px;" data-block-id="21c2131d7c62ac92eb5fd75e26755187"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 320 57"><defs><clippath id="shape-mask-3-1471690199333"><rect width="320" height="57"></rect></clippath></defs><rect width="320" height="57" clip-path="url(#shape-mask-3-1471690199333)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 189px; top: 280px;" data-block-id="d742f1e4df9beacf9e1d1a116e79c523"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>Define package name with version</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 240px; top: 133px;" data-block-id="c77be481bfaa06db71375c1960e801ad"><div class="sl-block-content" data-line-x1="263" data-line-y1="-81" data-line-x2="75" data-line-y2="-228" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="188" height="147" viewbox="75 -228 188 147"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="263.5" y1="-80.5" x2="81.5" y2="-222.5"></line><line stroke="#ff0000" stroke-width="5" x1="263.5" y1="-80.5" x2="81.5" y2="-222.5"></line><polygon fill="#ff0000" transform="translate(81,-223) rotate(-51.978)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="e40bcc590bcf86515088e4eb82644d57"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="0d1bde4e2b4a10440db6fd8e9f8e1a93">
+<div class="sl-block" data-block-type="shape" style="width: 736px; height: 100px; left: 80px; top: 140px;" data-block-id="565230b23ec26441ff6712686d56d950"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 736 100"><defs><clippath id="shape-mask-4-1471690199498"><rect width="736" height="100"></rect></clippath></defs><rect width="736" height="100" clip-path="url(#shape-mask-4-1471690199498)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 200px; top: 420px;" data-block-id="a9fd7f58740934974f88525ba7c969b4"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>Fetch the source code from an</p>
+
+<p>OpenBSD mirror &amp; check hash</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 400px; top: 240px;" data-block-id="1668dc09546421ee0ffca7dcd131881a"><div class="sl-block-content" data-line-x1="169" data-line-y1="-51" data-line-x2="89" data-line-y2="-231" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="80" height="180" viewbox="89 -231 80 180"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="169.5" y1="-50.5" x2="92.5" y2="-223.5"></line><line stroke="#ff0000" stroke-width="5" x1="169.5" y1="-50.5" x2="92.5" y2="-223.5"></line><polygon fill="#ff0000" transform="translate(92,-224) rotate(-23.962)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="3b826fc4958c979fe5b85e2d4ae1c654"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="31599a47f11ba44844ce7aa8673df84d">
+<div class="sl-block" data-block-type="shape" style="width: 603px; height: 42px; left: 80px; top: 244px;" data-block-id="4ea689448eeba5473b4e01d48c52e678"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 603 42"><defs><clippath id="shape-mask-5-1471690199674"><rect width="603" height="42"></rect></clippath></defs><rect width="603" height="42" clip-path="url(#shape-mask-5-1471690199674)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 200px; top: 420px;" data-block-id="4ca5c739283c98ea79f446414396bcc7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>List of packages available</p>
+
+<p>in the build environment</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 400px; top: 286px;" data-block-id="2f9225ce0410f9b630dc9982818a1134"><div class="sl-block-content" data-line-x1="162" data-line-y1="-97" data-line-x2="75" data-line-y2="-231" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="87" height="134" viewbox="75 -231 87 134"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="162.5" y1="-96.5" x2="79.5" y2="-224.5"></line><line stroke="#ff0000" stroke-width="5" x1="162.5" y1="-96.5" x2="79.5" y2="-224.5"></line><polygon fill="#ff0000" transform="translate(79,-225) rotate(-32.994)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="3c83f3514d50183f91b50cf61681f806"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="0e81f63da3eb470ffda47f86c7b66fb0">
+<div class="sl-block" data-block-type="shape" style="width: 648px; height: 125px; left: 80px; top: 286px;" data-block-id="da4156ad1080a3d4e58bbfbbab4ff52d"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 648 125"><defs><clippath id="shape-mask-6-1471690199830"><rect width="648" height="125"></rect></clippath></defs><rect width="648" height="125" clip-path="url(#shape-mask-6-1471690199830)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 268px; top: 33px;" data-block-id="ca1707a236685d56ec8172ec2d320d9b"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>List of flags to pass to the</p>
+
+<p>configure script (GNU autotools)</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 480px; top: 222px;" data-block-id="af57184c05eae68b07ebdbec37edb61e"><div class="sl-block-content" data-line-x1="235" data-line-y1="-295" data-line-x2="155" data-line-y2="-229" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="80" height="66" viewbox="155 -295 80 66"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-294.5" x2="161.5" y2="-233.5"></line><line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-294.5" x2="161.5" y2="-233.5"></line><polygon fill="#ff0000" transform="translate(161,-234) rotate(230.477)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="a7a06ccfd2e972db307541e3d9e0505b"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="cb54f41e4944e4f5e667b6dfb1f7f654">
+<div class="sl-block" data-block-type="shape" style="width: 439px; height: 43px; left: 80px; top: 454px;" data-block-id="f07264abd478a508425952f42af2ffdb"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 439 43"><defs><clippath id="shape-mask-7-1471690200015"><rect width="439" height="43"></rect></clippath></defs><rect width="439" height="43" clip-path="url(#shape-mask-7-1471690200015)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 287px; top: 140px;" data-block-id="36bb328a19b8fa1934d3ec273b52a802"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>Custom make target to install</p>
+
+<p>openssh (don't generate host keys)</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 400px; top: 329px;" data-block-id="0fc930e631d159a83b886a8ca24ef7b1"><div class="sl-block-content" data-line-x1="235" data-line-y1="-188" data-line-x2="75" data-line-y2="-63" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="160" height="125" viewbox="75 -188 160 125"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-187.5" x2="81.5" y2="-67.5"></line><line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-187.5" x2="81.5" y2="-67.5"></line><polygon fill="#ff0000" transform="translate(81,-68) rotate(232.001)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="95164b73771c273afd47b558f2843d7f"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="9fa2bf8a32505bc0eb805e91a67bc20c">
+<div class="sl-block" data-block-type="shape" style="width: 634px; height: 164px; left: 80px; top: 504px;" data-block-id="3e20716f67dc771c685c8694edc64201"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="5"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 634 164"><defs><clippath id="shape-mask-8-1471690200235"><rect width="634" height="164"></rect></clippath></defs><rect width="634" height="164" clip-path="url(#shape-mask-8-1471690200235)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 561px; left: 287px; top: 140px;" data-block-id="ede95a827b03d05c81ad87077f90e74f"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; border: 5px solid rgb(255, 0, 0); color: rgb(0, 0, 0); background-color: rgb(244, 204, 204);">
+<p> </p>
+
+<p>More meta information</p>
+
+<p>Independent of the package build</p>
+
+<p> </p>
+</div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 528px; top: 329px;" data-block-id="59c64cf09715aa42a2e32d35bde370ed"><div class="sl-block-content" data-line-x1="235" data-line-y1="-188" data-line-x2="203" data-line-y2="-13" data-line-color="#ff0000" data-line-start-type="none" data-line-end-type="arrow" style="z-index: 12;" data-line-width="5px"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="32" height="175" viewbox="203 -188 32 175"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-187.5" x2="204.5" y2="-19.5"></line><line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-187.5" x2="204.5" y2="-19.5"></line><polygon fill="#ff0000" transform="translate(204,-20) rotate(190.362)" points="0,-7.5 7.5,7.5 -7.5,7.5"></polygon></svg></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 843px; height: 672px; left: 59px; top: 14px;" data-block-id="3977b677365b382d7aa428d75b8814c1"><div class="sl-block-content" style="z-index: 0; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+
+stdenv.mkDerivation rec {
+  name = "openssh-${version}";
+  version = "7.3p1";
+
+  src = fetchurl {
+    url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+    sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+  };
+
+  buildInputs = [ zlib openssl libedit pkgconfig pam ];
+
+  configureFlags = [
+    "--with-mantype=man"
+    "--with-libedit=yes"
+    (if pam != null then "--with-pam" else "--without-pam")
+  ];
+
+  enableParallelBuilding = true;
+
+  installTargets = [ "install-nokeys" ];
+
+  meta = with stdenv.lib; {
+    homepage = "http://www.openssh.com/";
+    description = "An implementation of the SSH protocol";
+    license = licenses.bsd2;
+    platforms = platforms.unix;
+    maintainers = with maintainers; [ eelco ];
+  };
+}</code></pre></div></div></section><section data-id="01e5a722e562df032edc4a5732c36ce6"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="e37a2e211735f14750f1d0a57dd5ceff"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h3>Profiles &amp; User Environments</h3>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="38255a23c2c306ec27c8b897b6927ea8" style="min-width: 30px; min-height: 30px; width: 889px; height: 513.484px; left: 36px; top: 140px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="741" data-natural-height="428" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2927242/user-environments.png"></div></div></section><section data-id="a1e6f1322ba9fd4d4d378529bc0f6ab8"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="2bf2f46f6f8ad824b0d09217242f7120"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>nix-shell</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 169px; top: 210px;" data-block-id="cad53cbd189d2f9a4390951ad7b21d66"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;" data-fragment-index="0">
+<p>Just like </p>
+
+<h3>virtualenv, bundler, rvm</h3>
+
+<p>but for all packages!</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 640px; left: 160px; top: 404px;" data-block-id="03b3184189255aaa79455e161c59dfc1"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="1">
+<p>And for all programming language specific package managers like</p>
+
+<h3>npm, cabal, pip, gem, go, rust, nuget, bower</h3>
+</div></div></section><section data-id="77508083871908f1e7baf4e05965c6c2"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="21cde367f493314e5c5625f377e9981b"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 16;">
+<h2>nix-shell</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 800px; height: 210px; left: 80px; top: 280px;" data-block-id="c6b70b2224122e603fd614a75a1791d1"><div class="sl-block-content" style="z-index: 17;" data-highlight-theme="monokai"><pre class="diff"><code>[fpletz@yolovo:~]$ python
+python: Command not found
+
+[fpletz@yolovo:~]$ nix-shell -p python
+
+[nix-shell:~/src/nixpkgs]$ python
+Python 2.7.12 (default, Jun 25 2016, 21:49:32)
+[GCC 5.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; </code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 191px;" data-block-id="6854800a463fb8dfe463c75393a30eed"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 18;">
+<p>Imperative Environments</p>
+</div></div></section><section data-id="7cbf62c290f6131b452645100625791c"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="7784dd10226cc2d409251cd5d99d4246"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 16;">
+<h2>nix-shell</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 800px; height: 210px; left: 80px; top: 280px;" data-block-id="e8596e7263a73891fc1fbcb79911991d"><div class="sl-block-content" style="z-index: 17;" data-highlight-theme="monokai"><pre class="1c"><code>[nix-shell:~]$ python -c 'import requests'
+ImportError: No module named requests
+
+[nix-shell:~]$ exit
+
+[fpletz@yolovo:~]$ nix-shell -p python pythonPackages.requests
+
+[nix-shell:~]$ python -c 'import requests'</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 191px;" data-block-id="d2b3dba6243133652fed70f38d29a06f"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 18;">
+<p>Imperative Environments</p>
+</div></div></section><section data-id="46032bc2c08adfd7a3c79f2dd1178633"><div class="sl-block" data-block-type="code" style="width: 400px; height: 197px; left: 480px; top: 280px;" data-block-id="1e4030f9a7e30eddd900b1ab468e1d24"><div class="sl-block-content fragment" style="z-index: 11;" data-highlight-theme="monokai" data-fragment-index="0"><pre class="1c"><code>$ python -c 'import requests'
+ImportError: No module named requests
+
+$ nix-shell --pure
+
+$ python -c 'import requests'
+
+$ </code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 560px; left: 200px; top: 192px;" data-block-id="4b55e9fea80b116f49669dcd452ee837"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<p>Declarative environments for your project</p>
+</div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 321px; height: 197px; left: 78px; top: 280px;" data-block-id="f5f087136f8cfbbb692e8b57adba2f90"><div class="sl-block-content" style="z-index: 13; border-style: solid; border-width: 1px;" data-highlight-theme="github-gist"><pre class="none"><code>with import &lt;nixpkgs&gt; {}; {
+  env = stdenv.mkDerivation {
+    name = "pyrequests-env";
+    buildInputs = [
+      python
+      pythonPackages.requests
+    ];
+  };
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 320px; left: 79px; top: 471px;" data-block-id="8f8da92e2ec78a65e1d76f401051ff32"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;">
+<pre style="text-align: center;"><span style="font-size:0.7em">default.nix</span></pre>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="8e7b9efc599583b5cc5660387ddcf530"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 15;">
+<h2>nix-shell</h2>
+</div></div></section></section><section class="stack" data-id="5ccad8faef5ee297fc869506ab4c7f3f"><section data-id="14776f149f866f86d5a31e2d9e28d3b8"><div class="sl-block" data-block-type="text" style="width: 900px; left: 30px; top: 350px; height: auto;" data-block-id="597f9f944277d7ba397205903c8553e1"><div class="sl-block-content" data-placeholder-tag="h1" style="font-size: 175%; text-align: left; z-index: 10;" data-placeholder-text="Text">
+<h1>Configuration Management</h1>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="9aa0733d2acaaab6958ef416bb8f7e13" style="min-width: 30px; min-height: 30px; width: 286px; height: 262.412px; left: 626px; top: 46px;"><div class="sl-block-content" style="z-index: 11;"><img data-natural-width="291" data-natural-height="267" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926251/devoops.jpg"></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 517px; left: 62px; top: 243px;" data-block-id="585401b502107d90142bd75257dbf90c"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<h2>Let's talk about…</h2>
+</div></div></section><section data-id="986a9a8663ee6139da0f62a408e8eadf"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="40560f347cb085c26d1e27065173a9bd"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Traditional CfgMgmt</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="5bb6f14fcfd0f305a5991f6089bd4d18" style="height: auto; min-width: 30px; min-height: 30px; width: 400px; left: 80px; top: 330px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<h3>Can be declarative…</h3>
+
+<p>like for instance Puppet</p>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="b1f5d63c6db3592a895b51fca16e073d" style="min-width: 30px; min-height: 30px; width: 344px; height: 238px; left: 548px; top: 260px;"><div class="sl-block-content" style="z-index: 13; font-size: 125%; border-style: solid; border-width: 1px;" data-highlight-theme="github-gist"><pre class="none"><code>package { "openssh":
+  ensure =&gt; installed,
+}
+
+user { "eris":
+  ensure =&gt; present,
+  uid    =&gt; 1023,
+  home   =&gt; "/home/eris",
+}</code></pre></div></div></section><section data-id="cc5dca89327d8e474f33b41500dd3c0d"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="384c5d2e1a75133b6eeff5278be75c66"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Traditional CfgMgmt</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 160px; top: 210px;" data-block-id="da179bf41aaa6348a021358d0c8c3461"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<h3>…but only mutates state!</h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="4f759d1c699624313fedce7c12e59f10" style="height: auto; min-width: 30px; min-height: 30px; width: 488px; left: 236px; top: 280px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<ul>
+<li class="fragment" data-fragment-index="1">
+<pre>apt-get install openssh</pre>
+</li>
+<li class="fragment" data-fragment-index="2">
+<pre>useradd -u 1023 eris</pre>
+</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="7e977e70c1a4b5d961961b52e7882178" style="height: auto; min-width: 30px; min-height: 30px; width: 640px; left: 160px; top: 412px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="0">
+<p>Undeclared aspects of the target system are unknown and could have unexpected values!</p>
+</div></div></section><section data-id="ed4d707303e175f8c03febdaff6f1faa"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="dea0c83731c6314259e4ea85f73dcf07"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Traditional CfgMgmt</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 160px; top: 191px;" data-block-id="012dc05241a81e10e58ff5ff64d2e52b"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<h3>converges to target state</h3>
+</div></div>
+
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 381px; height: auto;" data-block-id="5132bbbe4be12999c2c9bfd4719b7fbc"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 12;" data-fragment-index="0">
+<h2>Purely Functional CfgMgmt</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 160px; top: 471px;" data-block-id="2af492c4ff43614d7c3a21091a8041e6"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<h3>rebuilds complete target state</h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="8de462ca8e6068264d3ed71c9379918c" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 241px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;">
+<p><em>eventual consistency</em></p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 521px;" data-block-id="187975b3599480154501aca065a70435"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 16;" data-fragment-index="0">
+<p><em>defined consistency</em></p>
+</div></div></section><section data-id="bf2658dba9df88c3953694e896c9b849"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 33px; height: auto;" data-block-id="b5e5d6af5b97571bc4b58fa29836a084"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Remember this?</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 892px; height: 453.713px; left: 34px; top: 123px;" data-block-id="efc504fe64195175e20e5388d63bc9b9"><div class="sl-block-content" style="z-index: 12; transition-duration: 0.6s;" data-animation-type="fade-in"><img style="" data-natural-width="983" data-natural-height="500" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926280/packaging_stateful.png"></div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 593px; height: auto;" data-block-id="fb3c1addac4cd3d1ef3f3b991eb3a64f"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 13;" data-fragment-index="0">
+<h2>All over again!</h2>
+</div></div></section><section data-id="164f16edcf50d3106c13838d3ec563a8"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="5af9b72fdcf3f88b45f45b08edf10fc1"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Eliminate the State</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="b3f08abdb5eae38476283fa242370632" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 185px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<h3>Everything is a freaking state problem</h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="0b0477d042ead9b58efcf74eaa92309c" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 280px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<p>So why not take Nix and build…</p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="68092d3a2f3ce991729be409f98eafad" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 326px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;">
+<ul>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="1">Linux kernel</li>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="2">initrd</li>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="3">bootloader</li>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="4">init system</li>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="5">configuration files</li>
+<li style="color:rgb(17, 17, 17)" class="fragment" data-fragment-index="6">lots of packages</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="f02badef2fdb6cdbb5dface1b4ce71dc" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 572px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;" data-fragment-index="7">
+<p><span style="color:rgb(17, 17, 17)">…to produce a complete operating system?</span></p>
+</div></div></section></section><section class="stack" data-id="63fae0c0f2ec087d24517cbad403676c"><section data-id="3022b123582b85377929897155d50f4e"><div class="sl-block" data-block-type="text" style="width: 680px; left: 120px; top: 141px; height: auto;" data-block-id="5543e6d64ffa0f6ac2c63d4247eb8afd"><div class="sl-block-content" data-placeholder-tag="h1" style="font-size: 200%; text-align: left; z-index: 11;" data-placeholder-text="Text">
+<h1>NixOS</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 420px;" data-block-id="a7ddbc66a97d7964a2f1d803eefdee61"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 200%;">
+<p>The declarative</p>
+
+<p>Linux Distribution</p>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 242.667px; height: 210px; left: 599px; top: 141px;" data-block-id="1e56e1961f5112633ac1b7f44217014c"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="1040" data-natural-height="900" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png"></div></div></section><section data-id="a6eb69d22fdb1fb63839e195d6e5ba24"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 66px; height: auto;" data-block-id="bfe9b108a5f250fb6d4408564b7c4b7f"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2><span style="font-size:0.9em">Declarative Configuration</span></h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="6a012e7852256355bf81b2b0af978d0f" style="min-width: 30px; min-height: 30px; width: 800px; height: 460px; left: 80px; top: 170px;"><div class="sl-block-content" style="z-index: 12; border-style: solid; border-width: 1px; font-size: 110%;" data-highlight-theme="github-gist"><pre class="none"><code>{
+  boot.loader.grub.device = "/dev/sda";
+  fileSystems."/".device = "/dev/sda1";
+
+  networking.hostname = "webserver";
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  environment.systemPackages = with pkgs; [ htop vim mtr ];
+
+  services =
+    { openssh.enable = true;
+      nginx =
+        { enable = true;
+          virtualHosts."service.example.com" =
+            { forceSSL = true;
+              enableACME = true;
+              location."/".proxyPass = "https://backend:3000/";
+            };
+        };
+    };
+}</code></pre></div></div></section><section data-id="7b25dfc3e5af0f273eee149d2ccd8177"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 271px; height: auto;" data-block-id="fdd121a584d7fda33cbd4cadcba89745"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text">
+<h1>Live Demo</h1>
+
+<h3>Installing NixOS</h3>
+</div></div></section><section data-id="cd7c49f932448e65d8bf4ff34048cc0b"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="b6f3ba7939a57bbdb1f96fee4c3c1bff"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Unique Features of NixOS</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 201px; height: auto;" data-block-id="259ca600de11d03d52595a7f99339d19"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text">
+<ul>
+<li>reliable upgrades &amp; consistency
+<ul>
+<li>immutable OS pinned to a git commit</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="0">atomic upgrades (just one symlink)</li>
+<li class="fragment" data-fragment-index="1">rollback</li>
+<li class="fragment" data-fragment-index="2">multi-user package management</li>
+<li class="fragment" data-fragment-index="3">same configuration, different targets
+<ul>
+<li>qemu, Virtualbox, AMIs, ISOs, netboot</li>
+<li>container tarballs, Docker images</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="4">~500 service modules</li>
+<li class="fragment" data-fragment-index="5">testing framework</li>
+</ul>
+</div></div></section><section data-id="2089596099789884364051d8edf4e16d"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="253b8fd3bc5b65611edce321d2021f07"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>NixOS Organisation</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 210px; height: auto;" data-block-id="db866e29950a8fcd47424201838700ee"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="">
+<ul>
+<li>one stable release every half a year
+<ul>
+<li>next: 16.09</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="0">code in the nixpkgs git repository</li>
+<li class="fragment" data-fragment-index="1">stable branch vs. git master</li>
+<li class="fragment" data-fragment-index="2">small but growing community
+<ul>
+<li>~900 contributors with ~90.000 commits</li>
+<li>~13.000 pull requests, ~4.000 issues</li>
+</ul>
+</li>
+</ul>
+</div></div></section><section data-id="7f96cb042976f45e91be0166c306f1ee"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="7f4031b73825e93758bbed2b93013a4f"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Deployment with NixOps</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="18f7ac114a4dfc0b3c89a49774732364" style="min-width: 30px; min-height: 30px; width: 720px; height: 378px; left: 120px; top: 158px;"><div class="sl-block-content" style="z-index: 12; font-size: 110%; border-style: solid; border-width: 1px;" data-highlight-theme="github-gist"><pre class="none"><code>$ cat deploy.nix
+{
+  webserver = { pkgs, ... }:
+    { services.openssh.enable = true;
+      services.nginx.enable = true;
+      users.extraUsers.root.openssh.authorizedKeys.keys =
+        [ "ssh-ed25519 AAAA…BUV fpletz@yolovo" ];
+    };
+}
+
+$ cat deploy-vbox.nix
+{
+  webserver = { ... }:
+    { deployment.targetEnv = "virtualbox";
+      deployment.virtualbox.memorySize = 1024;
+    };
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="0c446b89ddacd48c8c4323ddb5304b52" style="min-width: 30px; min-height: 30px; width: 720px; height: 104px; left: 120px; top: 545px;"><div class="sl-block-content fragment" style="z-index: 13;" data-highlight-theme="monokai" data-fragment-index="0"><pre class="bash"><code>$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
+
+$ nixops deploy -d my-web-deployment
+creating VirtualBox VM ‘webserver’...</code></pre></div></div></section><section data-id="15fa73a27d74f82b2a1567ec07174cb8"><div class="sl-block" data-block-type="text" style="width: 800px; left: 87px; top: 70px; height: auto;" data-block-id="62f11377277afbf52412e66b59ad486b"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Hydra Build Farm </h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="5c9421a05bf5ad43903d9793aeb0f1a1" style="min-width: 30px; min-height: 30px; width: 900px; height: 518.064px; left: 37px; top: 144px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="1157" data-natural-height="666" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2927503/hydra.png"></div></div></section></section><section class="stack" data-id="8845d3760b9bce9ab74672d2f5516401"><section data-id="2691c80469a7e267fea74210d7e35492"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="1b0c58fb66d41ce09b4bab83e1f34ac6"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Seriously, why Nix?</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 630px; height: auto;" data-block-id="4c59aaddbcbdc2f8beb920162b0835be"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" dir="ui" style="z-index: 12;" data-fragment-index="3">
+<p>Quotes by Rob Vermas - <a href="http://nixer.ghost.io/why/" target="_blank">http://nixer.ghost.io/why/</a></p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="21ab1d82f7aecd82d73acf73b2eab1c4" style="height: auto; min-width: 30px; min-height: 30px; width: 716px; left: 122px; top: 230px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<h3 style="text-align:center"><span style="font-size:0.9em">Nix protects me against me.</span></h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="5b2c9c859d2dfa9c34f93b9fdb52fa88" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 187px; top: 300px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="1">
+<h3 style="color:rgb(17, 17, 17)"><span style="font-size:0.9em">Nix exposes the things I forget.</span></h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="2bbb06e0955fa2c8897cd7a2d3a0c5a8" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 370px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;" data-fragment-index="2">
+<h3 style="color:rgb(17, 17, 17)"><span style="font-size:0.9em">Nix let's me do things multiple times consistently, even on different machines.</span></h3>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="9d850e80891b78ed1c593da618f731de" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 490px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 16;" data-fragment-index="3">
+<h3 style="color:rgb(255, 255, 255); text-align:center"><span style="font-size:0.9em"><span style="color:#000000">Nix, the one language to rule them all.</span></span></h3>
+</div></div></section><section data-id="70b719e29cc0edb6ec7e17a0d80d8296"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="4d12faaad4519bc2abf353c1a4e7f9b2"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Caveats of Nix &amp; NixOS</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 210px; height: auto;" data-block-id="4d2f21b856467b0b1bb62232437354d5"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text">
+<ul>
+<li>steep learning curve</li>
+<li class="fragment" data-fragment-index="0">quick "hacks" are hard/impossible</li>
+<li class="fragment" data-fragment-index="1">documentation is not beginner-friendly</li>
+<li class="fragment" data-fragment-index="2">flexibility costs disk space</li>
+<li class="fragment" data-fragment-index="3">no management of application state</li>
+</ul>
+</div></div></section><section data-id="1f855ddb545f7bbbf7524d82bcad3f54"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="15d9eea0b65db414d209f563229c97c4"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Future Improvements</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 210px; height: auto;" data-block-id="d6b84583d933a9ee5ab3b25fe7b60017"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+<li>private files in nix store</li>
+<li class="fragment" data-fragment-index="0">service hardening</li>
+<li class="fragment" data-fragment-index="1">statically typed Nix</li>
+<li class="fragment" data-fragment-index="2">speed &amp; memory improvements</li>
+<li class="fragment" data-fragment-index="3">binary determinism</li>
+<li class="fragment" data-fragment-index="4">P2P distribution of binary packages</li>
+</ul>
+</div></div></section></section><section data-id="815fcf17219eb3422f86c923501fbd1a"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="db1082df806492d1afb7e427f58e2491"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Useful Resources</h2>
+</div></div>
+
+
+
+
+<div class="sl-block" data-block-type="text" data-block-id="783cd78480fb0f24c50ce286cb2e355a" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 210px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+<li>Nix manual
+<ul>
+<li><a href="https://nixos.org/nix/manual/" target="_blank">https://nixos.org/nix/manual/</a></li>
+</ul>
+</li>
+<li>Interactive tour of Nix
+<ul>
+<li><a href="https://nixcloud.io/tour/" target="_blank">https://nixcloud.io/tour/</a></li>
+</ul>
+</li>
+<li>NixOS manual
+<ul>
+<li><a href="https://nixos.org/nixos/manual/" target="_blank">https://nixos.org/nixos/manual/</a></li>
+</ul>
+</li>
+<li>Nix Pills
+<ul>
+<li><a href="https://lethalman.blogspot.de/search/label/nixpills" target="_blank">https://lethalman.blogspot.de/</a></li>
+</ul>
+</li>
+</ul>
+</div></div></section><section data-id="ab9717903a389fca3c4137d87569028c"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 280px; height: auto;" data-block-id="be3bc2104d493375f806446db746f291"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Can I use Nix in production?</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="9817cb8a79acc5080447ffb9b44b2c1c" style="height: auto; min-width: 30px; min-height: 30px; width: 480px; left: 240px; top: 371px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;" data-fragment-index="0">
+<h3>We do. Others too.</h3>
+
+<h3>Even customers.</h3>
+</div></div>
+<div class="sl-block" data-block-type="image" style="min-width: 30px; min-height: 30px; width: 287.222px; height: 47px; left: 640px; top: 47px;" data-block-id="f753b8e9d4a3bfaab4a93515c3853ccd"><a class="sl-block-content" style="z-index: 14;" href="https://mayflower.de/" target="_blank"><img data-natural-width="440" data-natural-height="72" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926842/mayflower_logo440.png"></a></div></section><section data-id="65371288617ce74e22085168d12e69f2"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 140px; height: auto;" data-block-id="f2fdfc04396ea81c357d5655332088f8"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Thanks!</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="19f28c6333354dd62b91071d46926e36" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 551px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<p>Find these slides online:</p>
+
+<p><a href="https://slides.com/fpletz/nixos-froscon2016" target="_blank">https://slides.com/fpletz/nixos-froscon2016</a></p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="e0a742f783119d685daa2740398ed707" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 291px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<h3>Any questions?</h3>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="8c0baf705487b1770bb1208b875d7bee" style="min-width: 30px; min-height: 30px; width: 287.222px; height: 47px; left: 640px; top: 47px;"><a class="sl-block-content" style="z-index: 14;" href="https://mayflower.de/" target="_blank"><img data-natural-width="440" data-natural-height="72" style="" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926842/mayflower_logo440.png"></a></div>
+<div class="sl-block" data-block-type="text" data-block-id="12a4f205aed85dc00ef26e6658eec71e" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 413px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
+<p>You can also ask me on Twitter after the talk!</p>
+
+<p><a href="https://twitter.com/fpletz" target="_blank">@fpletz</a></p>
+</div></div></section><section class="stack" data-id="93a548e2a9fd158e416189f32a10030d"><section data-id="80c6bb8ed523d2b133c9c72d15d9446b"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 270px; height: auto;" data-block-id="84ea7e2f983c8d6fd7c1a50281549722"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text">
+<h1>Bonus Slides</h1>
+</div></div></section><section data-id="2919b9f00cc03d466582dd168da23df3"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="b10a54bfa71e3f6658f295512bc4204f"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>The simplest Nix derivation</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="b4687366570a09b7f3509588e8074998" style="min-width: 30px; min-height: 30px; width: 397px; height: 171px; left: 323px; top: 179px;"><div class="sl-block-content" style="z-index: 12; font-size: 110%;" data-highlight-theme="monokai"><pre class="bash"><code>$ cat default.nix
+derivation {
+  name = "my-package";
+  builder = ./builder.sh;
+  system = "x86-64-linux";
+  src = /home/user/source.tar.gz;
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="7d76dc9dee39e5222095db5ad5e5bdf9" style="min-width: 30px; min-height: 30px; width: 397px; height: 134px; left: 323px; top: 372px;"><div class="sl-block-content fragment" style="z-index: 13; font-size: 110%;" data-highlight-theme="monokai" data-fragment-index="0"><pre class="bash"><code>$ cat builder.sh
+tar xvfz $src
+cd program-1.0/
+mkdir -p $out/bin
+cp program.sh $out/bin/program</code></pre></div></div>
+<div class="sl-block" data-block-type="code" data-block-id="a6bac581c1c6b25aa1a2be464c025cc4" style="min-width: 30px; min-height: 30px; width: 625px; height: 83px; left: 168px; top: 526px;"><div class="sl-block-content fragment" style="z-index: 14; font-size: 110%;" data-highlight-theme="monokai" data-fragment-index="1"><pre class="bash"><code>$ nix-build
+/nix/store/cpcx3df4s2d51ddm01qm0w9x1nv8mpfq-my-package
+$ ./result/bin/program</code></pre></div></div></section><section data-id="f8a7fc558363744d12471f02dac3029e"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 103px; height: auto;" data-block-id="dafdab30bb6d026362df819f0f2cc0e9"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Sources of Impurity</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 480px; left: 240px; top: 210px;" data-block-id="1da690fe59d371b1e97c3ae593d84fb9"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+<li class="fragment" data-fragment-index="0">wetware bugs
+<ul>
+<li>"hotfixes" in production</li>
+<li>"debugging" in production</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="1">package upgrades</li>
+<li class="fragment" data-fragment-index="2">operating system upgrades</li>
+<li class="fragment" data-fragment-index="3">broken software modifying its own configuration</li>
+</ul>
+</div></div></section></section><section data-id="1248d0c2252551b047f771d519cfe12b"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="4c0cd08de5984db388b71548ff496bf5"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Sources</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 210px; height: auto;" data-block-id="c88d7c8acb8d6030b382e90fd7c5c2ce"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="">
+<p><a href="https://nixos.org" target="_blank">https://nixos.org</a></p>
+
+<p><a href="http://slides.com/domenkozar/nix-the-functional-package-manager-and-nixos-the-declarative-linux-distribution" target="_blank">http://slides.com/domenkozar/nix-the-functional-package-manager-and-nixos-the-declarative-linux-distribution</a></p>
+
+<p><a href="https://www.domenkozar.com/2014/03/11/why-puppet-chef-ansible-arent-good-enough-and-we-can-do-better/" target="_blank">https://www.domenkozar.com/2014/03/11/why-puppet-chef-ansible-arent-good-enough-and-we-can-do-better/</a></p>
+
+<p> </p>
+</div></div></section>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
