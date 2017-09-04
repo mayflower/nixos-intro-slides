@@ -25,6 +25,14 @@
         background-image: radial-gradient(center, circle cover, #fff 0%, #ddd 100%);
         background-image: -webkit-radial-gradient(center, circle cover, #fff 0%, #aaa 100%);
       }
+      .reveal pre code {
+        font-size: 70%;
+        max-height: 700px;
+        line-height: 1.1em;
+      }
+      .reveal pre {
+        box-shadow: none;
+      }
     </style>
 
     <!-- Printing and PDF exports -->
@@ -42,7 +50,7 @@
         <section>
           <h1>
             <span style="vertical-align: middle;">NixOS</span>
-            <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 40px"
+            <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
               data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
           </h1>
           <h3>Declarative Linux Distribution &amp;<br />Purely Functional Package Management</h3>
@@ -56,9 +64,33 @@
             </p>
           </small>
         </section><section>
-          <h2>About the speaker</h2>
+          <h2>About the speakers</h2>
 
-          <img data-natural-width="1101" data-natural-height="676" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926317/fpletz_github.png"></section><section class="stack"><section>
+          <p>Franz Pletz
+            <small>
+              <ul>
+                <li>Release Manager for NixOS 17.09 &amp; 18.03</li>
+                <li>Member of the Security Team</li>
+              </ul>
+            </small>
+          </p>
+          <div class="fragment">
+          <p>Robin Gloster
+            <small><ul>
+              <li>Release Manager for NixOS 17.03 &amp; 17.09</li>
+            </ul></small>
+          </p>
+          </div>
+          <div class="fragment">
+            <p>Both
+              <small><ul>
+                <li>&gt; 1000 commits &amp; in top 15 contributors</li>
+                <li>added compile-time hardening by default</li>
+              </ul></small>
+            </p>
+          </div>
+          
+        </section><section class="stack"><section>
             <h1>Package Management </h1>
             <img data-natural-width="250" data-natural-height="176" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926158/binary_package.png">
             <h2>Let's talk about…</h2>
@@ -114,13 +146,19 @@
               <li>Conflict-free</li>
               <li>Immutable</li>
             </ul>
-        </section></section><section class="stack"><section>
-            <h1>Nix</h1>
+        </section></section>
+        <section class="stack">
+          <section>
+            <h1>
+              <span style="vertical-align: middle;">Nix</span>
+              <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
+                data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
+            </h1>
 
 
             <p>The purely functional package manager</p>
-
-            <img data-natural-width="1040" data-natural-height="900" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png"></section><section>
+          </section>
+          <section>
             <h2>What is Nix?</h2>
 
 
@@ -176,131 +214,129 @@
           </section><section>
             <h2>Purity in Nix</h2>
 
+            <pre>/nix/store/<span class="fragment highlight-blue">i3vxa3hcxayzkr6w8x3z37rmxa95fdk2</span>-openssh-7.5p1</pre>
+            <p class="fragment"><em><span>A package is an output of a pure function.</span></em> <em><span>It depends only on the function inputs, without any side effects.</span></em></p>
 
             <ul>
               <li class="fragment">functional language</li>
-              <li class="fragment">chroot</li>
+              <li class="fragment">linux namespaces</li>
               <li class="fragment">no networking</li>
               <li class="fragment">patched shebangs</li>
               <li class="fragment">/nix/store mounted read-only</li>
               <li class="fragment">patches to tooling</li>
             </ul>
 
-
-            <pre>/nix/store/<span>s3fikpaws0z0wdkgs53nym05wj4wjy5w</span>-openssh-7.3p1</pre>
-
-
-            <p><em><span>A package is an output of a pure function.</span></em> <em><span>It depends only on the function inputs, without any side effects.</span></em></p>
           </section><section>
             <h2>Purity in Nix</h2>
 
-            <pre class="nginx"><code>src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };</code></pre>
+            <pre><code>src = fetchurl {
+  url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+  sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
+};</code></pre>
 
-            <h3>Fixed Output Derivations</h3>
+            <pre class="fragment"><code>src = fetchFromGitHub {
+  owner = "ponylang";
+  repo = "ponyc";
+  rev = "4eec8a9b0d9936b2a0249bd17fd7a2caac6aaa9c";
+  sha256 = "184x2jivp7826i60rf0dpx0a9dg5rsj56dv0cll28as4nyqfmna2";
+};</code></pre>
 
+            <div class="fragment">
+              <h3>Fixed Output Derivations</h3>
 
-            <p>For impure derivations where the output is known before the build.</p>
-
-            <p>Guarded by cryptographic hash of output.</p>
-
-            <pre class="nginx"><code>src = fetchFromGitHub {
-                owner = "ponylang";
-                repo = "ponyc";
-                rev = "4eec8a9b0d9936b2a0249bd17fd7a2caac6aaa9c";
-                sha256 = "184x2jivp7826i60rf0dpx0a9dg5rsj56dv0cll28as4nyqfmna2";
-                };</code></pre></section><section>
+              <p>
+                For impure derivations where the output is known before the build.<br />
+                Guarded by cryptographic hash of output.
+              </p>
+            </div>
+          </section>
+          <section>
             <h2>Dependencies of openssh</h2>
-
-            <img data-natural-width="1600" data-natural-height="839" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926485/openssh-deps.png"></section><section>
+            <!-- nix-store --query --graph /nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1 | sed -e s/ff0000/ffffff/ -e '1agraph [bgcolor=transparent]' | dot -Tpng -o img/openssh-closure.png -->
+            <img data-natural-width="1600" data-natural-height="839" data-src="img/openssh-closure.png">
+          </section>
+          <section>
             <h2>openssh Closure</h2>
 
-
             <pre class="1c"><code>$ du -sh $(nix-store -qR `nix-build -A openssh`)
-                19M     /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23
-                562K/nix/store/1zcm7nlw89y9hqq5ihhbkkmncw6s0vm8-bash-4.3-p42
-                8.4M/nix/store/6bscdl1q74d16d1c7hp84j77mpy9q5jg-ncurses-6.0
-                126K/nix/store/lx142x7lrirv833ckk74niiy3fp5p2wa-ncurses-6.0-man
-                534K/nix/store/02fpx56jrmbs8pgkdv0ihql2sdzbaxdq-ncurses-6.0-dev
-                1.8M/nix/store/381mr3hs51sbw4r53hc7adixlmard2cv-libressl-2.4.2
-                66K/nix/store/lcazrvc9390cm4bi95n458jabrs6y8z4-zlib-1.2.8
-                815K/nix/store/67ggrjiphzll3sy60zcv642r7jiv94nj-cracklib-2.9.6
-                1.8M/nix/store/g2q9kgmjsr6sbpnjmkbnvq298p89ps3f-linux-pam-1.2.1
-                209K/nix/store/zbc4iykrf79hj0gr7s77l56743yf5wml-libedit-20150325-3.1
-                3.1M/nix/store/s3fikpaws0z0wdkgs53nym05wj4wjy5w-openssh-7.3p1</code></pre></section><section>
-            <h2>openssh Store Path</h2>
-
-
-            <pre class="1c"><code>$ tree `nix-build -A openssh`
-                /nix/store/s3fikpaws0z0wdkgs53nym05wj4wjy5w-openssh-7.3p1
-                ├── bin
-                │   ├── scp
-                │   ├── sftp
-                │   ├── ssh
-                │   ├── ssh-add
-                │   ├── ssh-agent
-                │   ├── ssh-copy-id
-                │   ├── sshd
-                │   ├── ssh-keygen
-                │   └── ssh-keyscan
-                ├── etc
-                │   └── ssh
-                │       ├── moduli
-                │       ├── ssh_config
-                │       └── sshd_config
-                ├── libexec
-                │   ├── sftp-server
-                │   ├── ssh-keysign
-                │   └── ssh-pkcs11-helper
-                └── share
-                └── man
-                ├── man1
-                │   ├── scp.1.gz
-                │   ├── sftp.1.gz
-                │   ├── ssh.1.gz
-                │   ├── ssh-add.1.gz
-                │   ├── ssh-agent.1.gz
-                │   ├── ssh-copy-id.1.gz
-                │   ├── ssh-keygen.1.gz
-                │   └── ssh-keyscan.1.gz
-                ├── man5
-                │   ├── moduli.5.gz
-                │   ├── ssh_config.5.gz
-                │   └── sshd_config.5.gz
-                └── man8
-                ├── sftp-server.8.gz
-                ├── sshd.8.gz
-                ├── ssh-keysign.8.gz
-                └── ssh-pkcs11-helper.8.gz
-
-                9 directories, 30 files</code></pre></section><section>
+23M	/nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25
+1.2M	/nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12
+124K	/nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11
+1.1M	/nix/store/bmfb3gll7pynh6mkw436qqf72jhf66is-cracklib-2.9.6
+7.6M	/nix/store/jsfsvq7lvpf949pz22xiwr84ca56vzw9-ncurses-6.0-20170729
+2.7M	/nix/store/nfh1grxcx5sfzx76pa66jcd9anrmh6y5-linux-pam-1.2.1
+3.4M	/nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l
+292K	/nix/store/zq7zz39c9wnzjav079w7f2zn6j6f05xj-libedit-20160903-3.1
+5.1M	/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1</code></pre>
+          </section>
+          <section>
+            <h2>openssh Store Path</h2> <!-- XXX -->
+            <pre><code style="font-size: 60%;">$ tree `nix-build -A openssh`
+/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1
+├── bin
+│  ├── scp
+│  ├── sftp
+│  ├── ssh
+│  ├── ssh-add
+│  ├── ssh-agent
+│  ├── ssh-copy-id
+│  ├── ssh-keygen
+│  ├── ssh-keyscan
+│  └── sshd
+├── etc
+│  └── ssh
+│     ├── moduli
+│     ├── ssh_config
+│     └── sshd_config
+├── libexec
+│  ├── sftp-server
+│  ├── ssh-keysign
+│  └── ssh-pkcs11-helper
+└── share
+   └── man
+      ├── man1
+      │  ├── scp.1.gz
+      │  ├── sftp.1.gz
+      │  ├── ssh-add.1.gz
+      │  ├── ssh-agent.1.gz
+      │  ├── ssh-copy-id.1.gz
+      │  ├── ssh-keygen.1.gz
+      │  ├── ssh-keyscan.1.gz
+      │  └── ssh.1.gz
+      ├── man5
+      │  ├── moduli.5.gz
+      │  ├── ssh_config.5.gz
+      │  └── sshd_config.5.gz
+      └── man8
+         ├── sftp-server.8.gz
+         ├── ssh-keysign.8.gz
+         ├── ssh-pkcs11-helper.8.gz
+         └── sshd.8.gz</code></pre>
+          </section>
+          <section>
             <h2>Dependencies are hardcoded</h2>
 
             <pre class="1c"><code>$ ldd `which ssh`
-                linux-vdso.so.1 (0x00007ffccb981000)
-                libcrypto.so.38 =&gt; /nix/store/381mr3hs51sbw4r53hc7adixlmard2cv-libressl-2.4.2/lib/libcrypto.so.38
-                libdl.so.2 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libdl.so.2
-                libutil.so.1 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libutil.so.1
-                libz.so.1 =&gt; /nix/store/lcazrvc9390cm4bi95n458jabrs6y8z4-zlib-1.2.8/lib/libz.so.1
-                libcrypt.so.1 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libcrypt.so.1
-                libc.so.6 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libc.so.6
-                libresolv.so.2 =&gt; /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/libresolv.so.2
-                /nix/store/10zyyd2m90vqzj8gyqqdikzmg6a4dzqp-glibc-2.23/lib/ld-linux-x86-64.so.2</code></pre>
-            <pre class="bash"><code>$ cat `which iotop`
-                #! /nix/store/1zcm7nlw89y9hqq5ihhbkkmncw6s0vm8-bash-4.3-p42/bin/bash -e
-
-                export PYTHONPATH=/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/lib/python2.7/site-packages:/nix/store/pfv9m665mg2368hdkldwscxy927851n8-python-2.7.12/lib/python2.7/site-packages:/nix/store/wkhan6yfzljykzlwyd3wli4y990lf2gr-python2.7-setuptools-19.4/lib/python2.7/site-packages:/nix/store/c291g9drj1a6nvs0ils0jfx6rqppc8x9-python-curses-2.7.12/lib/python2.7/site-packages${PYTHONPATH:+:}$PYTHONPATH
-
-                export PATH=/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin:/nix/store/pfv9m665mg2368hdkldwscxy927851n8-python-2.7.12/bin:/nix/store/ya9d15pgg63bx6m7m72czvh9fcj5vfr7-less-483/bin:/nix/store/wkhan6yfzljykzlwyd3wli4y990lf2gr-python2.7-setuptools-19.4/bin:/nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin${PATH:+:}$PATH
-
-                exec -a "$0" /nix/store/hb9pj22cm3xjxjkblqlay3i5f3fdz48r-iotop-0.6/bin/.iotop-wrapped "${extraFlagsArray[@]}" "$@"</code></pre></section><section>
+ linux-vdso.so.1 (0x00007ffcaa3c1000)
+ libcrypto.so.1.0.0 => /nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l/lib/libcrypto.so.1.0.0 (0x00007f302ff72000)
+ libdl.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libdl.so.2 (0x00007f302fd6e000)
+ libutil.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libutil.so.1 (0x00007f302fb6b000)
+ libz.so.1 => /nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11/lib/libz.so.1 (0x00007f302f954000)
+ libcrypt.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libcrypt.so.1 (0x00007f302f719000)
+ libresolv.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libresolv.so.2 (0x00007f302f503000)
+ libc.so.6 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libc.so.6 (0x00007f302f164000)
+ /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/ld-linux-x86-64.so.2 (0x00007f30303ad000)</code></pre>
+            <pre class="bash"><code>$ cat `which dehydrated`
+#! /nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12/bin/bash -e
+export PATH=/nix/store/in8w04hmwyi7zh77a9jalzppiknwim2k-openssl-1.0.2l-bin/bin:/nix/store/9jjhadd4ipi20178bhp9q4b6w2jmshb0-coreutils-8.28/bin:/nix/store/hc2qa67dxw1db3sm76q9gwj0p4y6rq33-gnused-4.4/bin:/nix/store/wq819qmiminzrl1afvzy2dkxrxcac01h-gnugrep-3.1/bin:/nix/store/02ffk8wnyaffiq344vliwmnv5pl24ss0-diffutils-3.6/bin:/nix/store/bgkb2h2n8sxq37mn6ax8rf0zgfnw6n4d-curl-7.55.1-bin/bin:/nix/store/gr2ng003zxhql3vpy0xa8x7v793z9mr0-gawk-4.1.4/bin${PATH:+:}$PATH
+exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.dehydrated-wrapped"  "${extraFlagsArray[@]}" "$@"</code></pre>
+          </section>
+          <section>
             <h1>Real World Example</h1>
 
-
             <h2>openssh</h2>
-          </section><section>
+          </section>
+          <section>
             <pre class="none"><code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
 
                 stdenv.mkDerivation rec {
@@ -736,28 +772,28 @@
 
             <h2>nix-shell</h2>
         </section></section><section class="stack"><section>
+            <h2>Let's talk about…
+            <img style="vertical-align: bottom" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926251/devoops.jpg"></h2>
             <h1>Configuration Management</h1>
 
-            <img data-natural-width="291" data-natural-height="267" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926251/devoops.jpg">
 
-            <h2>Let's talk about…</h2>
           </section><section>
             <h2>Traditional CfgMgmt</h2>
 
 
             <h3>Can be declarative…</h3>
 
-            <p>like for instance Puppet</p>
+            <p>for instance Puppet</p>
 
             <pre class="none"><code>package { "openssh":
-                ensure =&gt; installed,
-                }
+  ensure =&gt; installed,
+}
 
-                user { "eris":
-                ensure =&gt; present,
-                uid    =&gt; 1023,
-                home   =&gt; "/home/eris",
-                }</code></pre></section><section>
+user { "eris":
+  ensure =&gt; present,
+  uid    =&gt; 1023,
+  home   =&gt; "/home/eris",
+}</code></pre></section><section>
             <h2>Traditional CfgMgmt</h2>
 
 
@@ -774,40 +810,32 @@
             </ul>
 
 
-            <p>Undeclared aspects of the target system are unknown and could have unexpected values!</p>
+            <p class="fragment" data-fragment-index="1">
+              Undeclared aspects of the target system are unknown and could have unexpected values!
+            </p>
           </section><section>
             <h2>Traditional CfgMgmt</h2>
-
-
             <h3>converges to target state</h3>
-
-
-
-            <h2>Purely Functional CfgMgmt</h2>
-
-
-            <h3>rebuilds complete target state</h3>
-
-
             <p><em>eventual consistency</em></p>
 
+            <div class="fragment">
+              <hr style="margin: 60px 0" />
 
-            <p><em>defined consistency</em></p>
+              <h2>Purely Functional CfgMgmt</h2>
+              <h3>rebuilds complete target state</h3>
+              <p><em>defined consistency</em></p>
+            </div>
           </section><section>
             <h2>Remember this?</h2>
 
             <img data-natural-width="983" data-natural-height="500" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926280/packaging_stateful.png">
 
-            <h2>All over again!</h2>
+            <h2 class="fragment">All over again!</h2>
           </section><section>
             <h2>Eliminate the State</h2>
-
-
             <h3>Everything is a freaking state problem</h3>
 
-
-            <p>So why not take Nix and build…</p>
-
+            <p class="fragment">So why not take Nix and build…</p>
 
             <ul>
               <li class="fragment">Linux kernel</li>
@@ -818,40 +846,44 @@
               <li class="fragment">lots of packages</li>
             </ul>
 
-
-            <p><span>…to produce a complete operating system?</span></p>
+            <p class="fragment">…to produce a complete operating system?</p>
         </section></section><section class="stack"><section>
-            <h1>NixOS</h1>
+            <h1>
+              <span style="vertical-align: middle;">NixOS</span>
+              <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
+                data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
+            </h1>
 
 
             <p>The declarative</p>
 
             <p>Linux Distribution</p>
+          </section>
+          <section>
 
-            <img data-natural-width="1040" data-natural-height="900" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png"></section><section>
             <h2><span>Declarative Configuration</span></h2>
 
             <pre class="none"><code>{
-                boot.loader.grub.device = "/dev/sda";
-                fileSystems."/".device = "/dev/sda1";
+  boot.loader.grub.device = "/dev/sda";
+  fileSystems."/".device = "/dev/sda1";
 
-                networking.hostname = "webserver";
-                networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.hostname = "webserver";
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-                environment.systemPackages = with pkgs; [ htop vim mtr ];
+  environment.systemPackages = with pkgs; [ htop vim wget ];
 
-                services =
-                { openssh.enable = true;
-                nginx =
-                { enable = true;
-                virtualHosts."service.example.com" =
-                { forceSSL = true;
-                enableACME = true;
-                location."/".proxyPass = "https://backend:3000/";
-                };
-                };
-                };
-                }</code></pre></section><section>
+  services = {
+    openssh.enable = true;
+    nginx = {
+      enable = true;
+      virtualHosts."service.example.com" = {
+        forceSSL = true;
+        enableACME = true;
+        location."/".proxyPass = "https://backend:3000/";
+      };
+    };
+  };
+}</code></pre></section><section>
             <h1>Live Demo</h1>
 
             <h3>Installing NixOS</h3>
@@ -884,15 +916,17 @@
             <ul>
               <li>one stable release every half a year
                 <ul>
-                  <li>next: 16.09</li>
+                  <li>next: 17.09</li>
                 </ul>
               </li>
               <li class="fragment">code in the nixpkgs git repository</li>
               <li class="fragment">stable branch vs. git master</li>
               <li class="fragment">small but growing community
                 <ul>
-                  <li>~900 contributors with ~90.000 commits</li>
-                  <li>~13.000 pull requests, ~4.000 issues</li>
+                  <li class="fragment">~1300 contributors with ~110.000 commits</li>
+                  <li class="fragment">~22.000 pull requests (~700 merged last month)</li>
+                  <li class="fragment">~7.000 issues</li>
+                  <li class="fragment">In the last month 251 authors have pushed 1,807 commits to master, 2,742 files have changed and there have been 65,000 added and 53,748 deleted lines.</li>
                 </ul>
               </li>
             </ul>
@@ -900,29 +934,31 @@
             <h2>Deployment with NixOps</h2>
 
             <pre class="none"><code>$ cat deploy.nix
-                {
-                webserver = { pkgs, ... }:
-                { services.openssh.enable = true;
-                services.nginx.enable = true;
-                users.extraUsers.root.openssh.authorizedKeys.keys =
-                [ "ssh-ed25519 AAAA…BUV fpletz@yolovo" ];
-                };
-                }
+{
+  webserver = { pkgs, ... }: {
+    services.openssh.enable = true;
+    services.nginx.enable = true;
+    users.extraUsers.root.openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAA…BUV fpletz@yolovo"
+    ];
+  };
+}
 
-                $ cat deploy-vbox.nix
-                {
-                webserver = { ... }:
-                { deployment.targetEnv = "virtualbox";
-                deployment.virtualbox.memorySize = 1024;
-                };
-                }</code></pre>
-            <pre class="bash"><code>$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
+$ cat deploy-vbox.nix
+{
+  webserver = { ... }: {
+    deployment.targetEnv = "virtualbox";
+    deployment.virtualbox.memorySize = 1024;
+  };
+}</code></pre>
+<pre class="bash"><code>$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
 
-                $ nixops deploy -d my-web-deployment
-                creating VirtualBox VM ‘webserver’...</code></pre></section><section>
+$ nixops deploy -d my-web-deployment
+creating VirtualBox VM ‘webserver’...</code></pre></section><section>
             <h2>Hydra Build Farm </h2>
 
-            <img data-natural-width="1157" data-natural-height="666" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2927503/hydra.png"></section></section><section class="stack"><section>
+            <img data-src="img/hydra.png"></section></section>
+       <!-- XXX <section class="stack"><section>
             <h2>Seriously, why Nix?</h2>
 
 
@@ -939,7 +975,9 @@
 
 
             <h3><span><span>Nix, the one language to rule them all.</span></span></h3>
-          </section><section>
+          </section>-->
+
+          <section>
             <h2>Caveats of Nix &amp; NixOS</h2>
 
 
@@ -953,7 +991,6 @@
           </section><section>
             <h2>Future Improvements</h2>
 
-
             <ul>
               <li>private files in nix store</li>
               <li class="fragment">service hardening</li>
@@ -964,11 +1001,6 @@
             </ul>
         </section></section><section>
           <h2>Useful Resources</h2>
-
-
-
-
-
 
           <ul>
             <li>Nix manual
@@ -988,7 +1020,7 @@
             </li>
             <li>Nix Pills
               <ul>
-                <li><a href="https://lethalman.blogspot.de/search/label/nixpills" target="_blank">https://lethalman.blogspot.de/</a></li>
+                <li><a href="https://nixos.org/nixos/nix-pills/" target="_blank">https://nixos.org/nixos/nix-pills/</a></li>
               </ul>
             </li>
           </ul>
@@ -1011,11 +1043,11 @@
 
           <h3>Any questions?</h3>
 
-          <a class="sl-block-content" href="https://mayflower.de/" target="_blank"><img data-natural-width="440" data-natural-height="72" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926842/mayflower_logo440.png"></a>
+          <p>
+            We're in #nixos on freenode: fpletz, globin<br />
+            Or e-mail at: nix@mayflower.de
+          <p>
 
-          <p>You can also ask me on Twitter after the talk!</p>
-
-          <p><a href="https://twitter.com/fpletz" target="_blank">@fpletz</a></p>
         </section><section class="stack"><section>
             <h1>Bonus Slides</h1>
           </section><section>
@@ -1069,17 +1101,21 @@
     <script src="js/reveal.js"></script>
 
     <script>
-      // More info about config & dependencies:
-      // - https://github.com/hakimel/reveal.js#configuration
-      // - https://github.com/hakimel/reveal.js#dependencies
-      Reveal.initialize({
-      dependencies: [
-      { src: 'plugin/markdown/marked.js' },
-      { src: 'plugin/markdown/markdown.js' },
-      { src: 'plugin/notes/notes.js', async: true },
-      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-      ]
-      });
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            history: true,
+            transition: "slide",
+            transitionSpeed: "fast",
+            margin: 0.05,
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
     </script>
   </body>
 </html>
