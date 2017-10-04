@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="lib/css/zenburn.css">
 
         <style>
-         .reveal h1, .reveal h2, .reveal h3 {
+         .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
              text-transform: none;
          }
          .reveal section img {
@@ -179,7 +179,7 @@
                         <ul>
                             <li class="">PhD thesis of Eelco Dolstra (2006)<br>
                                 "The Purely Functional Deployment Model"</li>
-                            <li class="fragment">build results only depend on declard inputs</li>
+                            <li class="fragment">build results only depend on declared inputs</li>
                             <li class="fragment">implemented in C++</li>
                             <li class="fragment">uses minimal purely functional language
                                 <ul>
@@ -328,20 +328,7 @@ src = fetchFromGitHub {
       │  ├── scp.1.gz
       │  ├── sftp.1.gz
       │  ├── ssh-add.1.gz
-      │  ├── ssh-agent.1.gz
-      │  ├── ssh-copy-id.1.gz
-      │  ├── ssh-keygen.1.gz
-      │  ├── ssh-keyscan.1.gz
-      │  └── ssh.1.gz
-      ├── man5
-      │  ├── moduli.5.gz
-      │  ├── ssh_config.5.gz
-      │  └── sshd_config.5.gz
-      └── man8
-         ├── sftp-server.8.gz
-         ├── ssh-keysign.8.gz
-         ├── ssh-pkcs11-helper.8.gz
-         └── sshd.8.gz</code>
+...</code>
                         </pre>
                     </section>
                     <section>
@@ -369,560 +356,71 @@ exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.
                     <section>
                         <h1>Real World Example</h1>
 
-                        <h2>openssh</h2>
+                        <h2>GNU hello and chrony</h2>
                     </section>
                     <section>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
+                        <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
 
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
+<span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
+  <span class="fragment highlight-current-red">name = "hello-2.10";</span>
 
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
+  <span class="fragment highlight-current-red">src = fetchurl {
+    url = "mirror://gnu/hello/${name}.tar.gz";
+    sha256 = "0ssi1wpaf7plaswqqjwigppsg5fyh99vdlb9kzl7c9lng89ndq1i";
+  };</span>
 
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
+  <span class="fragment highlight-current-red">meta = {
+    description = "A program that produces a familiar, friendly greeting";
+    longDescription = ''
+      GNU Hello is a program that prints "Hello, world!" when you run it.
+      It is fully customizable.
+    '';
+    homepage = http://www.gnu.org/software/hello/manual/;
+    license = stdenv.lib.licenses.gpl3Plus;
+    maintainers = [ stdenv.lib.maintainers.eelco ];
+    platforms = stdenv.lib.platforms.all;
+  };</span>
+}</pre>
                     </section>
                     <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 807 43">
-                            <defs>
-                                <clippath id="shape-mask-1-1471690198377">
-                                    <rect width="807" height="43">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="807" height="43" clip-path="url(#shape-mask-1-1471690198377)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>Dependencies of this "derivation"</p>
-
-                        <p>Parameters of a new function</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="1" height="167" viewbox="100 -199 1 167">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="100.5" y1="-31.5" x2="100.5" y2="-191.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="100.5" y1="-31.5" x2="100.5" y2="-191.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(100,-192) rotate(0.172)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 220 35">
-                            <defs>
-                                <clippath id="shape-mask-2-1471690198966">
-                                    <rect width="220" height="35">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="220" height="35" clip-path="url(#shape-mask-2-1471690198966)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>Create a derivation using a wrapper</p>
-
-                        <p>from the "standard environment"</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="86" height="148" viewbox="19 -271 86 148">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="105.5" y1="-122.5" x2="23.5" y2="-264.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="105.5" y1="-122.5" x2="23.5" y2="-264.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(23,-265) rotate(-30.16)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 320 57">
-                            <defs>
-                                <clippath id="shape-mask-3-1471690199333">
-                                    <rect width="320" height="57">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="320" height="57" clip-path="url(#shape-mask-3-1471690199333)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>Define package name with version</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="188" height="147" viewbox="75 -228 188 147">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="263.5" y1="-80.5" x2="81.5" y2="-222.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="263.5" y1="-80.5" x2="81.5" y2="-222.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(81,-223) rotate(-51.978)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 736 100">
-                            <defs>
-                                <clippath id="shape-mask-4-1471690199498">
-                                    <rect width="736" height="100">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="736" height="100" clip-path="url(#shape-mask-4-1471690199498)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>Fetch the source code from an</p>
-
-                        <p>OpenBSD mirror &amp; check hash</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="80" height="180" viewbox="89 -231 80 180">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="169.5" y1="-50.5" x2="92.5" y2="-223.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="169.5" y1="-50.5" x2="92.5" y2="-223.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(92,-224) rotate(-23.962)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 603 42">
-                            <defs>
-                                <clippath id="shape-mask-5-1471690199674">
-                                    <rect width="603" height="42">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="603" height="42" clip-path="url(#shape-mask-5-1471690199674)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>List of packages available</p>
-
-                        <p>in the build environment</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="87" height="134" viewbox="75 -231 87 134">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="162.5" y1="-96.5" x2="79.5" y2="-224.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="162.5" y1="-96.5" x2="79.5" y2="-224.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(79,-225) rotate(-32.994)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 648 125">
-                            <defs>
-                                <clippath id="shape-mask-6-1471690199830">
-                                    <rect width="648" height="125">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="648" height="125" clip-path="url(#shape-mask-6-1471690199830)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>List of flags to pass to the</p>
-
-                        <p>configure script (GNU autotools)</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="80" height="66" viewbox="155 -295 80 66">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-294.5" x2="161.5" y2="-233.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-294.5" x2="161.5" y2="-233.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(161,-234) rotate(230.477)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 439 43">
-                            <defs>
-                                <clippath id="shape-mask-7-1471690200015">
-                                    <rect width="439" height="43">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="439" height="43" clip-path="url(#shape-mask-7-1471690200015)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>Custom make target to install</p>
-
-                        <p>openssh (don't generate host keys)</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="160" height="125" viewbox="75 -188 160 125">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-187.5" x2="81.5" y2="-67.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-187.5" x2="81.5" y2="-67.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(81,-68) rotate(232.001)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 634 164">
-                            <defs>
-                                <clippath id="shape-mask-8-1471690200235">
-                                    <rect width="634" height="164">
-                                    </rect>
-                                </clippath>
-                            </defs>
-                            <rect width="634" height="164" clip-path="url(#shape-mask-8-1471690200235)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="10">
-                            </rect>
-                        </svg>
-
-                        <p> </p>
-
-                        <p>More meta information</p>
-
-                        <p>Independent of the package build</p>
-
-                        <p> </p>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="32" height="175" viewbox="203 -188 32 175">
-                            <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="235.5" y1="-187.5" x2="204.5" y2="-19.5">
-                            </line>
-                            <line stroke="#ff0000" stroke-width="5" x1="235.5" y1="-187.5" x2="204.5" y2="-19.5">
-                            </line>
-                            <polygon fill="#ff0000" transform="translate(204,-20) rotate(190.362)" points="0,-7.5 7.5,7.5 -7.5,7.5">
-                            </polygon>
-                        </svg>
-                        <pre class="none">
-                            <code>{ stdenv, fetchurl, fetchpatch, zlib, openssl, libedit, pkgconfig, pam }:
-
-                stdenv.mkDerivation rec {
-                name = "openssh-${version}";
-                version = "7.3p1";
-
-                src = fetchurl {
-                url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
-                sha256 = "1k5y1wi29d47cgizbryxrhc1fbjsba2x8l5mqfa9b9nadnd9iyrz";
-                };
-
-                buildInputs = [ zlib openssl libedit pkgconfig pam ];
-
-                configureFlags = [
-                "--with-mantype=man"
-                "--with-libedit=yes"
-                (if pam != null then "--with-pam" else "--without-pam")
-                ];
-
-                enableParallelBuilding = true;
-
-                installTargets = [ "install-nokeys" ];
-
-                meta = with stdenv.lib; {
-                homepage = "http://www.openssh.com/";
-                description = "An implementation of the SSH protocol";
-                license = licenses.bsd2;
-                platforms = platforms.unix;
-                maintainers = with maintainers; [ eelco ];
-                };
-                }</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h3>Profiles &amp; User Environments</h3>
-
-                        <img data-natural-width="741" data-natural-height="428" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2927242/user-environments.png">
+                      <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl, pkgconfig, libcap, readline, texinfo, nss, nspr
+, libseccomp }:</span>
+
+stdenv.mkDerivation rec {
+  <span class="fragment highlight-current-red">name = "chrony-${version}";
+  version = "3.1";</span>
+
+  src = fetchurl {
+    url = "http://download.tuxfamily.org/chrony/${name}.tar.gz";
+    sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
+  };
+
+  <span class="fragment highlight-current-red">buildInputs = [ readline texinfo nss nspr libcap libseccomp ];</span>
+  <span class="fragment highlight-current-red">nativeBuildInputs = [ pkgconfig ];</span>
+
+  <span class="fragment highlight-current-red">configureFlags = [
+    "--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
+  ];</span>
+}</pre>
                     </section>
                     <section>
                         <h2>nix-shell</h2>
 
+                        <div class="fragment">
+                          <p>Just like </p>
+                          <h3>virtualenv, bundler, rvm</h3>
+                          <p>but for all packages!</p>
+                        </div>
 
-                        <p>Just like </p>
-
-                        <h3>virtualenv, bundler, rvm</h3>
-
-                        <p>but for all packages!</p>
-
-
-                        <p>And for all programming language specific package managers like</p>
-
-                        <h3>npm, cabal, pip, gem, go, rust, nuget, bower</h3>
+                        <div class="fragment">
+                          <p>And for all programming language specific package managers like</p>
+                          <h4>npm, cabal, pip, gem, go, rust, nuget, bower</h4>
+                        </div>
                     </section>
                     <section>
                         <h2>nix-shell</h2>
 
+                        <p>Imperative Environments</p>
                         <pre class="diff">
                             <code>[fpletz@yolovo:~]$ python
 python: Command not found
@@ -935,12 +433,11 @@ Python 2.7.13 (default, Dec 17 2016, 20:05:07)
 Type "help", "copyright", "credits" or "license" for more information.
 &gt;&gt;&gt; </code>
                         </pre>
-
-                        <p>Imperative Environments</p>
                     </section>
                     <section>
                         <h2>nix-shell</h2>
 
+                        <p>Imperative Environments</p>
                         <pre class="1c">
                             <code>[nix-shell:~]$ python -c 'import requests'
 ImportError: No module named requests
@@ -951,8 +448,6 @@ ImportError: No module named requests
 
 [nix-shell:~]$ python -c 'import requests'</code>
                         </pre>
-
-                        <p>Imperative Environments</p>
                     </section>
                     <section>
                         <h2>nix-shell</h2>
@@ -1081,44 +576,12 @@ user { "eris":
                         <p>Linux Distribution</p>
                     </section>
                     <section>
-
-                        <h2>
-                            <span>Declarative Configuration</span>
-                        </h2>
-
-                        <pre class="none">
-                            <code>{
-  boot.loader.grub.device = "/dev/sda";
-  fileSystems."/".device = "/dev/sda1";
-
-  networking.hostname = "webserver";
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-  environment.systemPackages = with pkgs; [ htop vim wget ];
-
-  services = {
-    openssh.enable = true;
-    nginx = {
-      enable = true;
-      virtualHosts."service.example.com" = {
-        forceSSL = true;
-        enableACME = true;
-        location."/".proxyPass = "https://backend:3000/";
-      };
-    };
-  };
-}</code>
-                        </pre>
-                    </section>
-                    <section>
                         <h1>Live Demo</h1>
 
-                        <h3>Installing NixOS</h3>
+                        <h3>Working with NixOS configuration</h3>
                     </section>
                     <section>
                         <h2>Unique Features of NixOS</h2>
-
-
                         <ul>
                             <li>reliable upgrades &amp; consistency
                                 <ul>
@@ -1139,6 +602,9 @@ user { "eris":
                         </ul>
                     </section>
                     <section>
+                      <aside class="notes">
+                        600 PRs merged August 2017
+                      </aside>
                         <h2>NixOS Organisation</h2>
 
                         <ul>
@@ -1156,7 +622,7 @@ user { "eris":
                     <section>
                         <h2>Deployment with NixOps</h2>
 
-                        <pre class="none">
+                        <pre>
                             <code>$ cat deploy.nix
 {
   webserver = { pkgs, ... }: {
@@ -1166,19 +632,17 @@ user { "eris":
       "ssh-ed25519 AAAA…BUV fpletz@yolovo"
     ];
   };
-}</code>
-                        </pre>
-                        <pre class="none">
-                            <code>$ cat deploy-vbox.nix
+}
+
+$ cat deploy-vbox.nix
 {
   webserver = { ... }: {
     deployment.targetEnv = "virtualbox";
     deployment.virtualbox.memorySize = 1024;
   };
-}</code>
-                        </pre>
-                        <pre class="bash">
-                            <code>$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
+}
+
+$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
 
 $ nixops deploy -d my-web-deployment
 creating VirtualBox VM ‘webserver’...</code>
@@ -1220,7 +684,7 @@ creating VirtualBox VM ‘webserver’...</code>
                      </span>
                      </h3>
                      </section>-->
-
+                <section>
                 <section>
                     <h2>Caveats of Nix &amp; NixOS</h2>
 
@@ -1267,6 +731,9 @@ creating VirtualBox VM ‘webserver’...</code>
                             <ul>
                                 <li>
                                     <a href="https://nixos.org/nixos/manual/" target="_blank">https://nixos.org/nixos/manual/</a>
+                                </li>
+                                <li>
+                                    <a href="https://nixos.org/nixos/options.html" target="_blank">https://nixos.org/nixos/options.html</a>
                                 </li>
                             </ul>
                         </li>
@@ -1345,7 +812,42 @@ $ ./result/bin/program</code></pre></section>
                             <li class="fragment">broken software modifying its own configuration</li>
                         </ul>
                     </section>
+                    <section>
+                        <h3>Profiles &amp; User Environments</h3>
 
+                        <img data-natural-width="741" data-natural-height="428" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2927242/user-environments.png">
+                    </section>
+
+                    <section>
+
+                        <h2>
+                            <span>Declarative Configuration</span>
+                        </h2>
+
+                        <pre class="none">
+                            <code>{
+  boot.loader.grub.device = "/dev/sda";
+  fileSystems."/".device = "/dev/sda1";
+
+  networking.hostname = "webserver";
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  environment.systemPackages = with pkgs; [ htop vim wget ];
+
+  services = {
+    openssh.enable = true;
+    nginx = {
+      enable = true;
+      virtualHosts."service.example.com" = {
+        forceSSL = true;
+        enableACME = true;
+        location."/".proxyPass = "https://backend:3000/";
+      };
+    };
+  };
+}</code>
+                        </pre>
+                    </section>
                 </section>
 
                 <section>
