@@ -1,14 +1,22 @@
 let
   inherit (import <nixpkgs> {}) callPackage;
-in callPackage ({ stdenv, nodejs }:
-stdenv.mkDerivation {
-  name = "nixos-intro-slides";
+  slidesNodePkgs = import ./reveal/default.nix {};
+in {
+  dist = callPackage ({ stdenv, nodejs-6_x, unzip }:
+    stdenv.mkDerivation {
+      name = "nixos-intro-slides";
+      src = slidesNodePkgs.package;
 
-  buildInputs = [ nodejs ];
+      nativeBuildInputs = [ nodejs-6_x unzip ];
 
-  shellHook = ''
-    cd reveal
-    npm install
-    npm start
-  '';
-}) {}
+      buildPhase = ''
+        cd lib/node_modules/reveal.js
+        ./node_modules/.bin/grunt package
+      '';
+
+      installPhase = ''
+        install -d $out/share
+        unzip reveal-js-presentation.zip -d $out/share
+      '';
+    }) {};
+}
