@@ -123,18 +123,16 @@
                         <p>Build results <strong>depend on inherited state</strong></p>
 
                         <p>Package installs <strong>modify state</strong></p>
-                    </section>
-                    <section>
-                        <h2>Procedural Approach</h2>
+                        <aside class="notes">
+                            <p>Typical WTF Moments</p>
 
-                        <p>Typical WTF Moments</p>
-
-                        <ul>
-                            <li>Package compiles/runs on machine A but fails on machine B</li>
-                            <li class="fragment">Installing packages fails, system ends up in a broken or unknown state</li>
-                            <li class="fragment">New version of a library changes ABI, all dependent packages are broken</li>
-                            <li class="fragment">User modified a file of installed package, gets overwritten by package upgrade</li>
-                        </ul>
+                            <ul>
+                                <li>Package compiles/runs on machine A but fails on machine B</li>
+                                <li>Installing packages fails, system ends up in a broken or unknown state</li>
+                                <li>New version of a library changes ABI, all dependent packages are broken</li>
+                                <li>User modified a file of installed package, gets overwritten by package upgrade</li>
+                            </ul>
+                        </aside>
                     </section>
                     <section>
                         <h2>Functional Approach</h2>
@@ -167,7 +165,6 @@
                         <ul>
                             <li>PhD thesis of Eelco Dolstra (2006)<br>
                                 "The Purely Functional Deployment Model"</li>
-                            <li class="fragment">build results only depend on declared inputs</li>
                         </ul>
                     </section>
                     <section>
@@ -316,10 +313,12 @@ src = fetchFromGitHub {
                         </aside>
                     </section>
                     <section>
-                        <h2>Let Bindings</h2>
+                        <h2>Let Bindings &amp; If &amp; Import</h2>
                         <aside class="notes" data-markdown>
                             ```
                             let a = 5; b = 2; in a + b
+                            if 5 > 3 then "greater" else "lesser"
+                            import ./foo.nix
                             ```
                         </aside>
                     </section>
@@ -349,6 +348,10 @@ src = fetchFromGitHub {
 
                             [ attrs.foo attrs.bar ]
                             with attrs; [ foo bar ]
+
+                            varparam = "foo"
+                            attrs.${varparam}
+                            { a = 1; b = 2; } // { b = 3; c = 4; }
                             ```
                         </aside>
                     </section>
@@ -362,8 +365,6 @@ src = fetchFromGitHub {
                             subAB' = { a, b ? 0 }: a - b
                             subAB' { b = 3; a = 6; }
                             subAB' { a = 6; }
-
-
                             ```
                         </aside>
                     </section>
@@ -592,25 +593,25 @@ exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.
                     <section>
                         <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
 
-<span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
-<span class="fragment highlight-current-red">name = "hello-2.10";</span>
+  <span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
+  <span class="fragment highlight-current-red">name = "hello-2.10";</span>
 
-<span class="fragment highlight-current-red">src = fetchurl {
-url = "mirror://gnu/hello/${name}.tar.gz";
-sha256 = "0ssi1wpaf7plaswqqjwigppsg5fyh99vdlb9kzl7c9lng89ndq1i";
-};</span>
+  <span class="fragment highlight-current-red">src = fetchurl {
+    url = "mirror://gnu/hello/${name}.tar.gz";
+    sha256 = "0ssi1wpaf7plaswqqjwigppsg5fyh99vdlb9kzl7c9lng89ndq1i";
+  };</span>
 
-<span class="fragment highlight-current-red">meta = {
-description = "A program that produces a familiar, friendly greeting";
-longDescription = ''
-  GNU Hello is a program that prints "Hello, world!" when you run it.
-  It is fully customizable.
-'';
-homepage = http://www.gnu.org/software/hello/manual/;
-license = stdenv.lib.licenses.gpl3Plus;
-maintainers = [ stdenv.lib.maintainers.eelco ];
-platforms = stdenv.lib.platforms.all;
-};</span>
+  <span class="fragment highlight-current-red">meta = {
+    description = "A program that produces a familiar, friendly greeting";
+    longDescription = ''
+      GNU Hello is a program that prints "Hello, world!" when you run it.
+      It is fully customizable.
+    '';
+    homepage = http://www.gnu.org/software/hello/manual/;
+    license = stdenv.lib.licenses.gpl3Plus;
+    maintainers = [ stdenv.lib.maintainers.eelco ];
+    platforms = stdenv.lib.platforms.all;
+  };</span>
 }</pre>
                     </section>
                     <section>
@@ -618,20 +619,20 @@ platforms = stdenv.lib.platforms.all;
 , libseccomp }:</span>
 
 stdenv.mkDerivation rec {
-<span class="fragment highlight-current-red">name = "chrony-${version}";
-version = "3.1";</span>
+  <span class="fragment highlight-current-red">name = "chrony-${version}";
+  version = "3.1";</span>
 
-src = fetchurl {
-url = "http://download.tuxfamily.org/chrony/${name}.tar.gz";
-sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
-};
+  src = fetchurl {
+    url = "http://download.tuxfamily.org/chrony/${name}.tar.gz";
+    sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
+  };
 
-<span class="fragment highlight-current-red">buildInputs = [ readline texinfo nss nspr libcap libseccomp ];</span>
-<span class="fragment highlight-current-red">nativeBuildInputs = [ pkgconfig ];</span>
+  <span class="fragment highlight-current-red">buildInputs = [ readline texinfo nss nspr libcap libseccomp ];</span>
+  <span class="fragment highlight-current-red">nativeBuildInputs = [ pkgconfig ];</span>
 
-<span class="fragment highlight-current-red">configureFlags = [
-"--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
-];</span>
+  <span class="fragment highlight-current-red">configureFlags = [
+    "--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
+  ];</span>
 }</pre>
                     </section>
                     <section>
@@ -686,13 +687,13 @@ ImportError: No module named requests
 
                         <pre class="none">
                             <code>with import &lt;nixpkgs&gt; {}; {
-env = stdenv.mkDerivation {
-name = "pyrequests-env";
-buildInputs = [
-  python
-  pythonPackages.requests
-];
-};
+  env = stdenv.mkDerivation {
+    name = "pyrequests-env";
+    buildInputs = [
+      python
+      pythonPackages.requests
+    ];
+  };
 }</code>
                         </pre>
                         <pre class="1c">
