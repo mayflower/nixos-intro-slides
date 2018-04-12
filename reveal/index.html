@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>Introduction to NixOS</title>
+        <title>Nix for functional Programmers</title>
 
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/white.css">
@@ -49,11 +49,11 @@
             <div class="slides">
                 <section>
                     <h1>
-                        <span style="vertical-align: middle;">NixOS</span>
+                        <span style="vertical-align: middle;">Nix</span>
                         <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
                              data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
                     </h1>
-                    <h3>Declarative Linux Distribution &amp;<br />Purely Functional Package Management</h3>
+                    <h3>for functional programmers</h3>
                     <small>
                         <p>
                             Franz Pletz (<a href="https://github.com/fpletz" target="_blank">fpletz</a>) &amp;
@@ -221,7 +221,10 @@
                                 <ul>
                                     <li>fetch sources from git, mercurial, …</li>
                                     <li>a standard build environment</li>
-                                    <li>wrappers for lots of build systems</li>
+                                    <li>
+                                       wrappers for lots of build systems:
+                                       cabal, stack, ocaml, idris, coq
+                                    </li>
                                 </ul>
                             </li>
                             <li class="fragment">&gt; 10.000 packages available</li>
@@ -252,7 +255,7 @@
 
                     </section>
                     <section>
-                        <h2>Inpurity in Nix</h2>
+                        <h2>Impurity in Nix</h2>
 
                         <pre style="margin-top 0; margin-bottom: 0">
                             <code>src = fetchurl {
@@ -277,437 +280,99 @@ src = fetchFromGitHub {
                             </p>
                         </div>
                     </section>
-                    <section>
-                        <h2>Dependencies of openssh</h2>
-                        <!-- nix-store --query --graph /nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1 | sed -e s/ff0000/ffffff/ -e '1agraph [bgcolor=transparent]' | dot -Tpng -o img/openssh-closure.png -->
-                        <img data-natural-width="1600" data-natural-height="839" data-src="img/openssh-closure.png">
-                    </section>
-                    <section>
-                        <h2>openssh Closure</h2>
-
-                        <pre class="1c">
-                            <code>$ du -sh $(nix-store -qR `nix-build -A openssh`)
-23M	/nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25
-1.2M	/nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12
-124K	/nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11
-1.1M	/nix/store/bmfb3gll7pynh6mkw436qqf72jhf66is-cracklib-2.9.6
-7.6M	/nix/store/jsfsvq7lvpf949pz22xiwr84ca56vzw9-ncurses-6.0-20170729
-2.7M	/nix/store/nfh1grxcx5sfzx76pa66jcd9anrmh6y5-linux-pam-1.2.1
-3.4M	/nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l
-292K	/nix/store/zq7zz39c9wnzjav079w7f2zn6j6f05xj-libedit-20160903-3.1
-5.1M	/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h2>openssh Store Path</h2> <!-- XXX -->
-                        <pre>
-                            <code style="font-size: 60%;">$ tree `nix-build -A openssh`
-/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1
-├── bin
-│  ├── scp
-│  ├── sftp
-│  ├── ssh
-│  ├── ssh-add
-│  ├── ssh-agent
-│  ├── ssh-copy-id
-│  ├── ssh-keygen
-│  ├── ssh-keyscan
-│  └── sshd
-├── etc
-│  └── ssh
-│     ├── moduli
-│     ├── ssh_config
-│     └── sshd_config
-├── libexec
-│  ├── sftp-server
-│  ├── ssh-keysign
-│  └── ssh-pkcs11-helper
-└── share
-   └── man
-      ├── man1
-      │  ├── scp.1.gz
-      │  ├── sftp.1.gz
-      │  ├── ssh-add.1.gz
-...</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h2>Dependencies are hardcoded</h2>
-
-                        <pre class="1c">
-                            <code>$ ldd `which ssh`
- linux-vdso.so.1 (0x00007ffcaa3c1000)
- libcrypto.so.1.0.0 => /nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l/lib/libcrypto.so.1.0.0 (0x00007f302ff72000)
- libdl.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libdl.so.2 (0x00007f302fd6e000)
- libutil.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libutil.so.1 (0x00007f302fb6b000)
- libz.so.1 => /nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11/lib/libz.so.1 (0x00007f302f954000)
- libcrypt.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libcrypt.so.1 (0x00007f302f719000)
- libresolv.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libresolv.so.2 (0x00007f302f503000)
- libc.so.6 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libc.so.6 (0x00007f302f164000)
- /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/ld-linux-x86-64.so.2 (0x00007f30303ad000)</code>
-                        </pre>
-                        <pre class="bash">
-                            <code>$ cat `which dehydrated`
-#! /nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12/bin/bash -e
-export PATH=/nix/store/in8w04hmwyi7zh77a9jalzppiknwim2k-openssl-1.0.2l-bin/bin:/nix/store/9jjhadd4ipi20178bhp9q4b6w2jmshb0-coreutils-8.28/bin:/nix/store/hc2qa67dxw1db3sm76q9gwj0p4y6rq33-gnused-4.4/bin:/nix/store/wq819qmiminzrl1afvzy2dkxrxcac01h-gnugrep-3.1/bin:/nix/store/02ffk8wnyaffiq344vliwmnv5pl24ss0-diffutils-3.6/bin:/nix/store/bgkb2h2n8sxq37mn6ax8rf0zgfnw6n4d-curl-7.55.1-bin/bin:/nix/store/gr2ng003zxhql3vpy0xa8x7v793z9mr0-gawk-4.1.4/bin${PATH:+:}$PATH
-exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.dehydrated-wrapped"  "${extraFlagsArray[@]}" "$@"</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h1>Real World Example</h1>
-
-                        <h2>GNU hello and chrony</h2>
-                    </section>
-                    <section>
-                        <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
-
-<span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
-  <span class="fragment highlight-current-red">name = "hello-2.10";</span>
-
-  <span class="fragment highlight-current-red">src = fetchurl {
-    url = "mirror://gnu/hello/${name}.tar.gz";
-    sha256 = "0ssi1wpaf7plaswqqjwigppsg5fyh99vdlb9kzl7c9lng89ndq1i";
-  };</span>
-
-  <span class="fragment highlight-current-red">meta = {
-    description = "A program that produces a familiar, friendly greeting";
-    longDescription = ''
-      GNU Hello is a program that prints "Hello, world!" when you run it.
-      It is fully customizable.
-    '';
-    homepage = http://www.gnu.org/software/hello/manual/;
-    license = stdenv.lib.licenses.gpl3Plus;
-    maintainers = [ stdenv.lib.maintainers.eelco ];
-    platforms = stdenv.lib.platforms.all;
-  };</span>
-}</pre>
-                    </section>
-                    <section>
-                      <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl, pkgconfig, libcap, readline, texinfo, nss, nspr
-, libseccomp }:</span>
-
-stdenv.mkDerivation rec {
-  <span class="fragment highlight-current-red">name = "chrony-${version}";
-  version = "3.1";</span>
-
-  src = fetchurl {
-    url = "http://download.tuxfamily.org/chrony/${name}.tar.gz";
-    sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
-  };
-
-  <span class="fragment highlight-current-red">buildInputs = [ readline texinfo nss nspr libcap libseccomp ];</span>
-  <span class="fragment highlight-current-red">nativeBuildInputs = [ pkgconfig ];</span>
-
-  <span class="fragment highlight-current-red">configureFlags = [
-    "--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
-  ];</span>
-}</pre>
-                    </section>
-                    <section>
-                        <h2>nix-shell</h2>
-
-                        <div class="fragment">
-                          <p>Just like </p>
-                          <h3>virtualenv, bundler, rvm</h3>
-                          <p>but for all packages!</p>
-                        </div>
-
-                        <div class="fragment">
-                          <p>And for all programming language specific package managers like</p>
-                          <h4>npm, cabal, pip, gem, go, rust, nuget, bower</h4>
-                        </div>
-                    </section>
-                    <section>
-                        <h2>nix-shell</h2>
-
-                        <p>Imperative Environments</p>
-                        <pre class="diff">
-                            <code>[fpletz@yolovo:~]$ python
-python: Command not found
-
-[fpletz@yolovo:~]$ nix-shell -p python
-
-[nix-shell:~/src/nixpkgs]$ python
-Python 2.7.13 (default, Dec 17 2016, 20:05:07)
-[GCC 6.4.0] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; </code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h2>nix-shell</h2>
-
-                        <p>Imperative Environments</p>
-                        <pre class="1c">
-                            <code>[nix-shell:~]$ python -c 'import requests'
-ImportError: No module named requests
-
-[nix-shell:~]$ exit
-
-[fpletz@yolovo:~]$ nix-shell -p python pythonPackages.requests
-
-[nix-shell:~]$ python -c 'import requests'</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h2>nix-shell</h2>
-                        <p>Declarative environments for your project</p>
-
-                        <pre class="none">
-                            <code>with import &lt;nixpkgs&gt; {}; {
-  env = stdenv.mkDerivation {
-    name = "pyrequests-env";
-    buildInputs = [
-      python
-      pythonPackages.requests
-    ];
-  };
-}</code>
-                        </pre>
-                        <pre class="1c">
-                            <code>$ python -c 'import requests'
-ImportError: No module named requests
-
-$ nix-shell --pure
-
-$ python -c 'import requests'
-
-$ </code>
-                        </pre>
-
-                    </section>
-                </section>
-                <section class="stack">
-                    <section>
-                        <h2>Let's talk about…
-                            <img style="vertical-align: bottom" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926251/devoops.jpg">
-                        </h2>
-                        <h1>Configuration Management</h1>
-                    </section>
-                    <section>
-                        <h2>Traditional CfgMgmt</h2>
-
-                        <h3>Can be declarative…</h3>
-
-                        <p>Example: Puppet</p>
-
-                        <pre class="none">
-                            <code>package { "openssh":
-  ensure =&gt; installed,
-}
-
-user { "eris":
-  ensure =&gt; present,
-  uid    =&gt; 1023,
-  home   =&gt; "/home/eris",
-}</code>
-                        </pre>
-                    </section>
-                    <section>
-                        <h2>Traditional CfgMgmt</h2>
-
-                        <h3>…but only mutates state!</h3>
-
-                        <ul>
-                            <li class="fragment">
-                                <pre>apt-get install openssh</pre>
-                            </li>
-                            <li class="fragment">
-                                <pre>useradd -u 1023 eris</pre>
-                            </li>
-                        </ul>
-
-                        <p class="fragment" data-fragment-index="1">
-                            Undeclared aspects of the target system are unknown and could have unexpected values!
-                        </p>
-                    </section>
-                    <section>
-                        <h2>Traditional CfgMgmt</h2>
-                        <h3>converges to target state</h3>
-                        <p>
-                            <em>eventual consistency</em>
-                        </p>
-
-                        <div class="fragment">
-                            <hr style="margin: 60px 0" />
-
-                            <h2>Purely Functional CfgMgmt</h2>
-                            <h3>rebuilds complete target state</h3>
-                            <p>
-                                <em>defined consistency</em>
-                            </p>
-                        </div>
-                    </section>
-                    <section>
-                        <h2>Remember this?</h2>
-
-                        <img data-natural-width="983" data-natural-height="500" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926280/packaging_stateful.png">
-
-                        <h2 class="fragment">Packaging all over again!</h2>
-                    </section>
-                    <section>
-                        <h2>Eliminate the State</h2>
-                        <h3>Everything is a freaking state problem</h3>
-
-                        <p class="fragment">So why not take Nix and build…</p>
-
-                        <ul>
-                            <li class="fragment">Linux kernel</li>
-                            <li class="fragment">initrd</li>
-                            <li class="fragment">bootloader</li>
-                            <li class="fragment">init system</li>
-                            <li class="fragment">configuration files</li>
-                            <li class="fragment">lots of packages</li>
-                        </ul>
-
-                        <p class="fragment">…to produce a complete operating system?</p>
-                    </section>
                 </section>
                 <section class="stack">
                     <section>
                         <h1>
-                            <span style="vertical-align: middle;">NixOS</span>
+                            <span style="vertical-align: middle;">Nix Language</span>
                             <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
                                  data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
                         </h1>
-
-                        <p>The declarative</p>
-
-                        <p>Linux Distribution</p>
                     </section>
                     <section>
-                        <h1>Live Demo</h1>
+                        <h2>Basic Types</h2>
+                        <aside class="notes" data-markdown>
+                            integer, float, string, boolean, null, path, url
+                            ```
+                            1 + 2
+                            3.0 / 2
+                            "string" + "concatenation"
+                            true || false
+                            ./tmp
+                            /home/robin
+                            https://nixos.org
 
-                        <h3>Working with NixOS configuration</h3>
+                            6/2 vs 6 / 2
+                            ```
+
+                            interpolation:
+                            ```
+                            "foo ${a}"
+                            "foo ${toString a}"
+                            ```
+                        </aside>
                     </section>
                     <section>
-                        <h2>Unique Features of NixOS</h2>
-                        <ul>
-                            <li>reliable upgrades &amp; consistency
-                                <ul>
-                                    <li>immutable OS pinned to a git commit</li>
-                                </ul>
-                            </li>
-                            <li class="fragment">atomic upgrades (just one symlink)</li>
-                            <li class="fragment">rollback</li>
-                            <li class="fragment">multi-user package management</li>
-                            <li class="fragment">same configuration, different targets
-                                <ul>
-                                    <li>qemu, Virtualbox, AMIs, ISOs, netboot</li>
-                                    <li>container tarballs, Docker images</li>
-                                </ul>
-                            </li>
-                            <li class="fragment">~650 service modules</li>
-                            <li class="fragment">testing framework</li>
-                        </ul>
+                        <h2>Strongly Typed</h2>
+                        <h2>Not Statically Typed</h2>
+                        <aside class="notes" data-markdown>
+                            ```
+                            "1" + "2"
+                            1 + 2
+                            1 + "2"
+                            ```
+                        </aside>
                     </section>
                     <section>
-                      <aside class="notes">
-                        600 PRs merged August 2017
-                      </aside>
-                        <h2>NixOS Organisation</h2>
+                        <h2>Functions</h2>
+                        <aside class="notes" data-markdown>
+                            ```
+                            add = a: b: a + b
+                            add 1 2
+                            add1 = add 1
+                            add1 2
 
-                        <ul>
-                            <li>one stable release every 6 months (18.03)</li>
-                            <li class="fragment">code in the nixpkgs git repository</li>
-                            <li class="fragment">small but growing community
-                                <ul>
-                                    <li class="fragment">~1500 contributors with ~130.000 commits</li>
-                                    <li class="fragment">~8.000 issues, ~27.000 pull requests</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <blockquote class="fragment">In the last month 281 authors have pushed 2982 commits. 3325 files have changed with 66690 additions and 53491 deletions.</blockquote>
+                            x:x vs x: x
+                            ```
+                        </aside>
                     </section>
                     <section>
-                        <h2>Deployment with NixOps</h2>
-
-                        <pre>
-                            <code>$ cat deploy.nix
-{
-  webserver = { pkgs, ... }: {
-    services.openssh.enable = true;
-    services.nginx.enable = true;
-    users.extraUsers.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAA…BUV fpletz@yolovo"
-    ];
-  };
-}
-
-$ cat deploy-vbox.nix
-{
-  webserver = { ... }: {
-    deployment.targetEnv = "virtualbox";
-    deployment.virtualbox.memorySize = 1024;
-  };
-}
-
-$ nixops create ./deploy.nix ./deploy-vbox.nix -d my-web-deployment
-
-$ nixops deploy -d my-web-deployment
-creating VirtualBox VM ‘webserver’...</code>
-                        </pre>
+                        <h2>Let Bindings</h2>
+                        <aside class="notes" data-markdown>
+                            ```
+                            let a = 5; b = 2; in a + b
+                            ```
+                        </aside>
                     </section>
                     <section>
-                        <h2>Hydra Build Farm</h2>
-
-                        <img data-src="img/hydra.png">
+                        <h2>Lists</h2>
+                        <aside class="notes" data-markdown>
+                            lazy, different types:
+                            ```
+                            [ 1 "string" ]
+                            [ 1 "string" (3 / 0) ]
+                            lib.elemAt [ 1 "string" (3 / 0) ] 1
+                            ```
+                        </aside>
                     </section>
-                </section>
-                <!-- XXX <section class="stack">
-                     <section>
-                     <h2>Seriously, why Nix?</h2>
+                    <section>
+                        <h2>Attribute Sets</h2>
+                        <aside class="notes" data-markdown>
+                            ```
+                            attrs = { foo = 2; bar = "string"; }
+                            attrs.foo
+                            { foo = 2; "1complicated.identifier" = 1; }
 
+                            { n = 2; b = n + 2; }
+                            rec { n = 2; b = n + 2; }
+                            let n = 2; b = n + 2; in { n = n; b = b; }
+                            let n = 2; b = n + 2; in { inherit n b; }
 
-                     <p>Quotes by Rob Vermas - <a href="http://nixer.ghost.io/why/" target="_blank">http://nixer.ghost.io/why/</a>
-                     </p>
-
-
-                     <h3>
-                     <span>Nix protects me against me.</span>
-                     </h3>
-
-
-                     <h3>
-                     <span>Nix exposes the things I forget.</span>
-                     </h3>
-
-
-                     <h3>
-                     <span>Nix let's me do things multiple times consistently, even on different machines.</span>
-                     </h3>
-
-
-                     <h3>
-                     <span>
-                     <span>Nix, the one language to rule them all.</span>
-                     </span>
-                     </h3>
-                     </section>-->
-                <section>
-                <section>
-                    <h2>Caveats of Nix &amp; NixOS</h2>
-
-                    <ul>
-                        <li>steep learning curve</li>
-                        <li class="fragment">quick "hacks" are hard/impossible</li>
-                        <li class="fragment">documentation is not beginner-friendly</li>
-                        <li class="fragment">flexibility costs disk space</li>
-                        <li class="fragment">no management of application state</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Future Improvements</h2>
-
-                    <ul>
-                        <li>private files in nix store</li>
-                        <li class="fragment">service hardening</li>
-                        <li class="fragment">statically typed Nix</li>
-                        <li class="fragment">speed &amp; memory improvements</li>
-                        <li class="fragment">binary determinism</li>
-                        <li class="fragment">P2P distribution of binary packages</li>
-                    </ul>
-                </section>
+                            [ attrs.foo attrs.bar ]
+                            with attrs; [ foo bar ]
+                            ```
+                        </aside>
+                    </section>
                 </section>
                 <section>
                     <h2>Useful Resources</h2>
@@ -812,6 +477,83 @@ $ ./result/bin/program</code></pre></section>
                             <li class="fragment">broken software modifying its own configuration</li>
                         </ul>
                     </section>
+
+                    <section>
+                        <h2>Dependencies of openssh</h2>
+                        <!-- nix-store --query --graph /nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1 | sed -e s/ff0000/ffffff/ -e '1agraph [bgcolor=transparent]' | dot -Tpng -o img/openssh-closure.png -->
+                        <img data-natural-width="1600" data-natural-height="839" data-src="img/openssh-closure.png">
+                    </section>
+                    <section>
+                        <h2>openssh Closure</h2>
+
+                        <pre class="1c">
+                            <code>$ du -sh $(nix-store -qR `nix-build -A openssh`)
+23M	/nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25
+1.2M	/nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12
+124K	/nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11
+1.1M	/nix/store/bmfb3gll7pynh6mkw436qqf72jhf66is-cracklib-2.9.6
+7.6M	/nix/store/jsfsvq7lvpf949pz22xiwr84ca56vzw9-ncurses-6.0-20170729
+2.7M	/nix/store/nfh1grxcx5sfzx76pa66jcd9anrmh6y5-linux-pam-1.2.1
+3.4M	/nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l
+292K	/nix/store/zq7zz39c9wnzjav079w7f2zn6j6f05xj-libedit-20160903-3.1
+5.1M	/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1</code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>openssh Store Path</h2> <!-- XXX -->
+                        <pre>
+                            <code style="font-size: 60%;">$ tree `nix-build -A openssh`
+/nix/store/i3vxa3hcxayzkr6w8x3z37rmxa95fdk2-openssh-7.5p1
+├── bin
+│  ├── scp
+│  ├── sftp
+│  ├── ssh
+│  ├── ssh-add
+│  ├── ssh-agent
+│  ├── ssh-copy-id
+│  ├── ssh-keygen
+│  ├── ssh-keyscan
+│  └── sshd
+├── etc
+│  └── ssh
+│     ├── moduli
+│     ├── ssh_config
+│     └── sshd_config
+├── libexec
+│  ├── sftp-server
+│  ├── ssh-keysign
+│  └── ssh-pkcs11-helper
+└── share
+   └── man
+      ├── man1
+      │  ├── scp.1.gz
+      │  ├── sftp.1.gz
+      │  ├── ssh-add.1.gz
+...</code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>Dependencies are hardcoded</h2>
+
+                        <pre class="1c">
+                            <code>$ ldd `which ssh`
+ linux-vdso.so.1 (0x00007ffcaa3c1000)
+ libcrypto.so.1.0.0 => /nix/store/sj0y2r4ly4hw4lghj7ygp3cpa8crfa7a-openssl-1.0.2l/lib/libcrypto.so.1.0.0 (0x00007f302ff72000)
+ libdl.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libdl.so.2 (0x00007f302fd6e000)
+ libutil.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libutil.so.1 (0x00007f302fb6b000)
+ libz.so.1 => /nix/store/jbvpic4p7hnpjz056mzk86xn1rspx4ii-zlib-1.2.11/lib/libz.so.1 (0x00007f302f954000)
+ libcrypt.so.1 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libcrypt.so.1 (0x00007f302f719000)
+ libresolv.so.2 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libresolv.so.2 (0x00007f302f503000)
+ libc.so.6 => /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/libc.so.6 (0x00007f302f164000)
+ /nix/store/r7139ibn27h4agx21n753mbsw1cbhy6i-glibc-2.25/lib/ld-linux-x86-64.so.2 (0x00007f30303ad000)</code>
+                        </pre>
+                        <pre class="bash">
+                            <code>$ cat `which dehydrated`
+#! /nix/store/fjj3bf0ma00c2jsnfwmng5nhrc1plj2d-bash-4.4-p12/bin/bash -e
+export PATH=/nix/store/in8w04hmwyi7zh77a9jalzppiknwim2k-openssl-1.0.2l-bin/bin:/nix/store/9jjhadd4ipi20178bhp9q4b6w2jmshb0-coreutils-8.28/bin:/nix/store/hc2qa67dxw1db3sm76q9gwj0p4y6rq33-gnused-4.4/bin:/nix/store/wq819qmiminzrl1afvzy2dkxrxcac01h-gnugrep-3.1/bin:/nix/store/02ffk8wnyaffiq344vliwmnv5pl24ss0-diffutils-3.6/bin:/nix/store/bgkb2h2n8sxq37mn6ax8rf0zgfnw6n4d-curl-7.55.1-bin/bin:/nix/store/gr2ng003zxhql3vpy0xa8x7v793z9mr0-gawk-4.1.4/bin${PATH:+:}$PATH
+exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.dehydrated-wrapped"  "${extraFlagsArray[@]}" "$@"</code>
+                        </pre>
+                    </section>
                     <section>
                         <h3>Profiles &amp; User Environments</h3>
 
@@ -848,6 +590,129 @@ $ ./result/bin/program</code></pre></section>
 }</code>
                         </pre>
                     </section>
+                </section>
+                <section>
+                    <h1>Real World Example</h1>
+
+                    <h2>GNU hello and chrony</h2>
+                </section>
+                <section>
+                    <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
+
+<span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
+<span class="fragment highlight-current-red">name = "hello-2.10";</span>
+
+<span class="fragment highlight-current-red">src = fetchurl {
+url = "mirror://gnu/hello/${name}.tar.gz";
+sha256 = "0ssi1wpaf7plaswqqjwigppsg5fyh99vdlb9kzl7c9lng89ndq1i";
+};</span>
+
+<span class="fragment highlight-current-red">meta = {
+description = "A program that produces a familiar, friendly greeting";
+longDescription = ''
+  GNU Hello is a program that prints "Hello, world!" when you run it.
+  It is fully customizable.
+'';
+homepage = http://www.gnu.org/software/hello/manual/;
+license = stdenv.lib.licenses.gpl3Plus;
+maintainers = [ stdenv.lib.maintainers.eelco ];
+platforms = stdenv.lib.platforms.all;
+};</span>
+}</pre>
+                </section>
+                <section>
+                  <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl, pkgconfig, libcap, readline, texinfo, nss, nspr
+, libseccomp }:</span>
+
+stdenv.mkDerivation rec {
+<span class="fragment highlight-current-red">name = "chrony-${version}";
+version = "3.1";</span>
+
+src = fetchurl {
+url = "http://download.tuxfamily.org/chrony/${name}.tar.gz";
+sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
+};
+
+<span class="fragment highlight-current-red">buildInputs = [ readline texinfo nss nspr libcap libseccomp ];</span>
+<span class="fragment highlight-current-red">nativeBuildInputs = [ pkgconfig ];</span>
+
+<span class="fragment highlight-current-red">configureFlags = [
+"--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
+];</span>
+}</pre>
+                </section>
+                <section>
+                    <h2>nix-shell</h2>
+
+                    <div class="fragment">
+                      <p>Just like </p>
+                      <h3>virtualenv, bundler, rvm</h3>
+                      <p>but for all packages!</p>
+                    </div>
+
+                    <div class="fragment">
+                      <p>And for all programming language specific package managers like</p>
+                      <h4>npm, cabal, pip, gem, go, rust, nuget, bower</h4>
+                    </div>
+                </section>
+                <section>
+                    <h2>nix-shell</h2>
+
+                    <p>Imperative Environments</p>
+                    <pre class="diff">
+                        <code>[fpletz@yolovo:~]$ python
+python: Command not found
+
+[fpletz@yolovo:~]$ nix-shell -p python
+
+[nix-shell:~/src/nixpkgs]$ python
+Python 2.7.13 (default, Dec 17 2016, 20:05:07)
+[GCC 6.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; </code>
+                    </pre>
+                </section>
+                <section>
+                    <h2>nix-shell</h2>
+
+                    <p>Imperative Environments</p>
+                    <pre class="1c">
+                        <code>[nix-shell:~]$ python -c 'import requests'
+ImportError: No module named requests
+
+[nix-shell:~]$ exit
+
+[fpletz@yolovo:~]$ nix-shell -p python pythonPackages.requests
+
+[nix-shell:~]$ python -c 'import requests'</code>
+                    </pre>
+                </section>
+                <section>
+                    <h2>nix-shell</h2>
+                    <p>Declarative environments for your project</p>
+
+                    <pre class="none">
+                        <code>with import &lt;nixpkgs&gt; {}; {
+env = stdenv.mkDerivation {
+name = "pyrequests-env";
+buildInputs = [
+  python
+  pythonPackages.requests
+];
+};
+}</code>
+                    </pre>
+                    <pre class="1c">
+                        <code>$ python -c 'import requests'
+ImportError: No module named requests
+
+$ nix-shell --pure
+
+$ python -c 'import requests'
+
+$ </code>
+                    </pre>
+
                 </section>
 
                 <section>
