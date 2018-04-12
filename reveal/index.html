@@ -137,18 +137,6 @@
                         </ul>
                     </section>
                     <section>
-                        <h2>Purely Functional?</h2>
-                        <p>Functions are pure iff</p>
-                        <ol>
-                            <li>
-                                Always evaluate the <strong>same result</strong> value given the <strong>same argument values</strong>
-                            </li>
-                            <li class="fragment">
-                                Evaluation of the result causes <strong>no semantically observable side effect</strong>
-                            </li>
-                        </ol>
-                    </section>
-                    <section>
                         <h2>Functional Approach</h2>
 
                         <img style="width: 600px; height: 200px" data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2926299/packaging_stateless.png" />
@@ -174,20 +162,12 @@
                         <p>The purely functional package manager</p>
                     </section>
                     <section>
-                        <h2>What is Nix?</h2>
+                        <h2>Nix?</h2>
 
                         <ul>
-                            <li class="">PhD thesis of Eelco Dolstra (2006)<br>
+                            <li>PhD thesis of Eelco Dolstra (2006)<br>
                                 "The Purely Functional Deployment Model"</li>
                             <li class="fragment">build results only depend on declared inputs</li>
-                            <li class="fragment">implemented in C++</li>
-                            <li class="fragment">uses minimal purely functional language
-                                <ul>
-                                    <li>describes package builds</li>
-                                    <li>defines dependencies</li>
-                                    <li>lazily evaluated, dynamically typed</li>
-                                </ul>
-                            </li>
                         </ul>
                     </section>
                     <section>
@@ -198,7 +178,6 @@
                             <li class="fragment">atomic upgrades &amp; rollbacks</li>
                             <li class="fragment">isolated build environment</li>
                             <li class="fragment">shell environments</li>
-                            <li class="fragment">runs on POSIX (Linux, *BSD, OS X)</li>
                             <li class="fragment">multi-version support</li>
                             <li class="fragment">multi-user support</li>
                             <li class="fragment">source/binary model</li>
@@ -220,14 +199,13 @@
                             <li class="fragment">Lots of abstractions
                                 <ul>
                                     <li>fetch sources from git, mercurial, …</li>
-                                    <li>a standard build environment</li>
                                     <li>
-                                       wrappers for lots of build systems:
+                                       wrappers/helpers for lots of build systems/languages:
                                        cabal, stack, ocaml, idris, coq
                                     </li>
                                 </ul>
                             </li>
-                            <li class="fragment">&gt; 10.000 packages available</li>
+                            <li class="fragment">&gt; 10.000 packages available + all of hackage</li>
                             <li class="fragment">can be used on other Unix systems &amp; Darwin</li>
                         </ul>
                     </section>
@@ -288,6 +266,7 @@ src = fetchFromGitHub {
                             <img style="vertical-align: middle; width: 200px; height: 175px; margin-left: 30px"
                                  data-src="https://s3.amazonaws.com/media-p.slid.es/uploads/385250/images/2051207/nixos-logo-only-hires.png">
                         </h1>
+                        <h2>Purely Functional DSL for Package Definitions</h2>
                     </section>
                     <section>
                         <h2>Basic Types</h2>
@@ -370,6 +349,21 @@ src = fetchFromGitHub {
 
                             [ attrs.foo attrs.bar ]
                             with attrs; [ foo bar ]
+                            ```
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Functions II</h2>
+                        <aside class="notes" data-markdown>
+                            ```
+                            subAB = { a, b }: a - b
+                            subAB { b = 3; a = 6; }
+
+                            subAB' = { a, b ? 0 }: a - b
+                            subAB' { b = 3; a = 6; }
+                            subAB' { a = 6; }
+
+
                             ```
                         </aside>
                     </section>
@@ -590,14 +584,13 @@ exec -a "$0" "/nix/store/8c6bvca47rx957bx4hg6mjzn9mqg8gx2-dehydrated-0.4.0/bin/.
 }</code>
                         </pre>
                     </section>
-                </section>
-                <section>
-                    <h1>Real World Example</h1>
+                    <section>
+                        <h1>Real World Example</h1>
 
-                    <h2>GNU hello and chrony</h2>
-                </section>
-                <section>
-                    <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
+                        <h2>GNU hello and chrony</h2>
+                    </section>
+                    <section>
+                        <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl }:</span>
 
 <span class="fragment highlight-current-red">stdenv.mkDerivation rec {</span>
 <span class="fragment highlight-current-red">name = "hello-2.10";</span>
@@ -619,9 +612,9 @@ maintainers = [ stdenv.lib.maintainers.eelco ];
 platforms = stdenv.lib.platforms.all;
 };</span>
 }</pre>
-                </section>
-                <section>
-                  <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl, pkgconfig, libcap, readline, texinfo, nss, nspr
+                    </section>
+                    <section>
+                      <pre class="none"><span class="fragment highlight-current-red">{ stdenv, fetchurl, pkgconfig, libcap, readline, texinfo, nss, nspr
 , libseccomp }:</span>
 
 stdenv.mkDerivation rec {
@@ -640,27 +633,27 @@ sha256 = "0xb03dya1zhcn1gch2v2ynifxw95g8m3plr9q4ys0s3pvgf0g4cx";
 "--chronyvardir=$(out)/var/lib/chrony" "--enable-scfilter"
 ];</span>
 }</pre>
-                </section>
-                <section>
-                    <h2>nix-shell</h2>
+                    </section>
+                    <section>
+                        <h2>nix-shell</h2>
 
-                    <div class="fragment">
-                      <p>Just like </p>
-                      <h3>virtualenv, bundler, rvm</h3>
-                      <p>but for all packages!</p>
-                    </div>
+                        <div class="fragment">
+                          <p>Just like </p>
+                          <h3>virtualenv, bundler, rvm</h3>
+                          <p>but for all packages!</p>
+                        </div>
 
-                    <div class="fragment">
-                      <p>And for all programming language specific package managers like</p>
-                      <h4>npm, cabal, pip, gem, go, rust, nuget, bower</h4>
-                    </div>
-                </section>
-                <section>
-                    <h2>nix-shell</h2>
+                        <div class="fragment">
+                          <p>And for all programming language specific package managers like</p>
+                          <h4>npm, cabal, pip, gem, go, rust, nuget, bower</h4>
+                        </div>
+                    </section>
+                    <section>
+                        <h2>nix-shell</h2>
 
-                    <p>Imperative Environments</p>
-                    <pre class="diff">
-                        <code>[fpletz@yolovo:~]$ python
+                        <p>Imperative Environments</p>
+                        <pre class="diff">
+                            <code>[fpletz@yolovo:~]$ python
 python: Command not found
 
 [fpletz@yolovo:~]$ nix-shell -p python
@@ -670,14 +663,14 @@ Python 2.7.13 (default, Dec 17 2016, 20:05:07)
 [GCC 6.4.0] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 &gt;&gt;&gt; </code>
-                    </pre>
-                </section>
-                <section>
-                    <h2>nix-shell</h2>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>nix-shell</h2>
 
-                    <p>Imperative Environments</p>
-                    <pre class="1c">
-                        <code>[nix-shell:~]$ python -c 'import requests'
+                        <p>Imperative Environments</p>
+                        <pre class="1c">
+                            <code>[nix-shell:~]$ python -c 'import requests'
 ImportError: No module named requests
 
 [nix-shell:~]$ exit
@@ -685,14 +678,14 @@ ImportError: No module named requests
 [fpletz@yolovo:~]$ nix-shell -p python pythonPackages.requests
 
 [nix-shell:~]$ python -c 'import requests'</code>
-                    </pre>
-                </section>
-                <section>
-                    <h2>nix-shell</h2>
-                    <p>Declarative environments for your project</p>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>nix-shell</h2>
+                        <p>Declarative environments for your project</p>
 
-                    <pre class="none">
-                        <code>with import &lt;nixpkgs&gt; {}; {
+                        <pre class="none">
+                            <code>with import &lt;nixpkgs&gt; {}; {
 env = stdenv.mkDerivation {
 name = "pyrequests-env";
 buildInputs = [
@@ -701,9 +694,9 @@ buildInputs = [
 ];
 };
 }</code>
-                    </pre>
-                    <pre class="1c">
-                        <code>$ python -c 'import requests'
+                        </pre>
+                        <pre class="1c">
+                            <code>$ python -c 'import requests'
 ImportError: No module named requests
 
 $ nix-shell --pure
@@ -711,8 +704,9 @@ $ nix-shell --pure
 $ python -c 'import requests'
 
 $ </code>
-                    </pre>
+                        </pre>
 
+                    </section>
                 </section>
 
                 <section>
