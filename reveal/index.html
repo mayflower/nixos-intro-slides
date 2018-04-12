@@ -369,6 +369,243 @@ src = fetchFromGitHub {
                         </aside>
                     </section>
                 </section>
+
+                <section class="stack">
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Nix loves Haskell
+
+                        * all of Hackage is automatically imported
+                        * built against different GHC versions
+                          * 7.0.4, 7.4.2, 7.6.3, 7.8.4, 7.10.3
+                          * 8.0.2, 8.2.2, 8.4.1
+                          * HEAD
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Haskell Packages in nixpkgs
+
+                        * Compilers:
+                          * `haskell.compiler.ghcXYZ`
+                          * `haskell.compiler.ghc841`
+                          * `haskell.compiler.ghcjs`
+                        * Packages:
+                          * `haskell.packages.ghcXYZ.xyz`
+                          * `haskell.packages.ghc802.pandoc`
+                          * `haskell.packages.ghc822.QuickCheck`
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Packaging Haskell Software
+
+                        * Dedicated Tool: cabal2nix
+                          * generates Nix expressions based on cabal files
+                        * Resolves dependencies from nixpkgs
+                        * Can create development environments
+                          * to be used with `nix-shell`
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Packaging Haskell Software
+
+                        ```bash
+                        $ git clone https://github.com/koalaman/shellcheck.git
+                        $ cd shellcheck
+
+                        $ cabal2nix . &gt; shellcheck.nix
+
+                        $ cat << EOF >> default.nix
+                        { nixpkgs ? import <nixpkgs> {}, compiler ? "ghc822" }:
+                        nixpkgs.pkgs.haskell.packages.${compiler}.callPackage ./shellcheck.nix { }
+                        EOF
+
+                        $ nix-build
+
+                        $ ./result/bin/shellcheck --version
+                        ShellCheck - shell script analysis tool
+                        version: 0.4.7
+                        ```
+                    </textarea>
+                </section>
+                 <section data-markdown>
+                    <textarea data-template>
+                        ## Development Environments
+
+                        * All dependencies available
+                        * Built against the correct compiler version
+
+                        ```bash
+                        $ cabal2nix --shell . &gt; shell.nix
+
+                        $ nix-shell --run "cabal configure"
+
+                        (nix-shell)$ cabal build
+                        ```
+
+                        Ad-hoc environments
+                        ```nix
+                        $ nix-shell -p \
+                          'haskell.packages.ghc822.ghcWithPackages (ps: with ps; [ shellcheck network ])'
+
+                        (nix-shell)$ ghci
+                        GHCi, version 8.2.2: http://www.haskell.org/ghc/  :? for help
+                        Prelude> import Network
+                        Prelude Network>
+                        ```
+                    </textarea> # ghcWithPackages
+                </section>
+                </section>
+
+                <section class="stack">
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Structure of nixpkgs
+
+                        * function that creates one big attribute set with packages
+                        ```nix
+                          {
+                            cowsay = callPackage ../tools/misc/cowsay { };
+
+                            openssh = callPackage ../tools/networking/openssh {
+                              pam = if stdenv.isLinux then pam else null;
+                            };
+
+                            …
+                          }
+                        ```
+                        * `callPackage` passes dependencies as function arguments to package definitions
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Structure of nixpkgs
+
+                        * package definition are functions that
+                          * take dependencies as arguments
+                          * return a nix derivation
+
+                        ```nix
+                        { stdenv, fetchurl, zlib, openssl, libedit, pkgconfig, pam }:
+
+                        stdenv.mkDerivation rec {
+                          name = "openssh-${version}";
+                          version = "7.6p1";
+
+                          src = fetchurl {
+                            url = "mirror://openbsd/OpenSSH/portable/${name}.tar.gz";
+                            sha256 = "08qpsb8mrzcx8wgvz9insiyvq7sbg26yj5nvl2m5n57yvppcl8x3";
+                          };
+
+                          buildInputs = [ zlib openssl libedit pam ]
+
+                          …
+                        }
+                        ```
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Overriding Packages
+
+                        via `~/.nixpkgs/config.nix`
+
+                        ```nix
+                        packageOverrides = pkgs: {
+                          cowsay = pkgs.cowsay.overrideAttrs (oldAttrs: {
+                            postInstall = ''
+                              ln -s $out/bin/cowsay $out/bin/moosay
+                            '';
+                          })
+                        }
+                        ```
+
+                        or in a NixOS config
+
+                        ```nix
+                        nixpkgs.config.packageOverrides = …
+                        ```
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Nix loves Fixed Points
+
+                        Recursive attribute sets in Nix
+                        ```nix
+                        f = self: { foo = "foo"; bar = "bar"; foobar = self.foo + self.bar; }
+
+                        nix-repl> fix f
+                        { bar = "bar"; foo = "foo"; foobar = "foobar"; }
+
+                        fix = f: let x = f x; in x;
+                        ```
+
+                        Creating extensible attribute sets
+                        ```nix
+                        g = self: super: { foo = super.foo + " + "; }
+
+                        nix-repl> fix (extends g f)
+                        { bar = "bar"; foo = "foo + "; foobar = "foo + bar"; }
+
+                        extends = f: rattrs: self: let super = rattrs self; in super // f self super;
+                        ```
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## nixpkgs Overlays
+
+                        Definition
+                        ```nix
+                        self: super:
+
+                        {
+                          boost = super.boost.override {
+                            python = self.python3;
+                          };
+                          mypkg = super.callPackage ./pkgs/mypkg {
+                            stdenv = self.stdenv_32bit;
+                          };
+                        }
+                        ```
+
+                        Usage
+                        ```nix
+                        pkgs = import <nixpkgs> { overlays = [ overlay1 overlay2 ]; }
+                        ```
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Nix really loves Fixed Points
+
+                        * used in nixpkgs nearly everywhere
+                          * Haskell package set
+                          * NixOS module system
+                        * proposal for new language feature
+
+                        ```nix
+                        {
+                          base = {{
+                            x = 123;
+                            y = x;
+                          }};
+
+                          overrides = {{
+                            x = 456;
+                            z = y;
+                          }};
+
+                          result = fix (base // overrides);
+                        }
+                        ```
+                    </textarea>
+                </section>
+                </section>
+
                 <section>
                     <h2>Useful Resources</h2>
 
